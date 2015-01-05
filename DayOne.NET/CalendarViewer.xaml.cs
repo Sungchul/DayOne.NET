@@ -21,7 +21,7 @@ namespace DayOne.NET
     /// </summary>
     public partial class CalendarViewer : UserControl
     {
-        private double verticalOffsetForwardItemAddTriger = 30;
+        private double verticalOffsetForwardItemAddTriger = 100;
         private double verticalOffsetBackwardItemAddTriger = 100;
 
         private DateTime lastForwardDateTime;
@@ -46,18 +46,20 @@ namespace DayOne.NET
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            //if (e.VerticalOffset < verticalOffsetForwardItemAddTriger) {
-            //    for (var i = 0; i < 5; i++) {
-            //        AddForwardCalendar();
-            //        //sceollViewer.ScrollToVerticalOffset(109);
-            //    }
-            //}
+            if (e.VerticalOffset < verticalOffsetForwardItemAddTriger) {
+                for (var i = 0; i < 5; i++) {
+                    AddForwardCalendar();
+                }
 
-            //else if (e.ExtentHeight - (e.ViewportHeight + e.VerticalOffset) < verticalOffsetBackwardItemAddTriger) {
-            //    for (var i = 0; i < 5; i++) {
-            //        AddBackwardCalendar();
-            //    }
-            //}
+                var newOffset = scrollViewer.VerticalOffset + 260 * 5;
+                scrollViewer.ScrollToVerticalOffset(newOffset);
+            }
+
+            else if (e.ExtentHeight - (e.ViewportHeight + e.VerticalOffset) < verticalOffsetBackwardItemAddTriger) {
+                for (var i = 0; i < 5; i++) {
+                    AddBackwardCalendar();
+                }
+            }
         }
 
         private void GoToTodayCalendar()

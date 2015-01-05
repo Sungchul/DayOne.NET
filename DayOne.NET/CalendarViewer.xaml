@@ -8,7 +8,9 @@
              mc:Ignorable="d">
     <Grid>
 
-        <ScrollViewer Name="sceollViewer" ScrollChanged="ScrollViewer_ScrollChanged">
+        <ScrollViewer Name="scrollViewer" 
+                      ScrollChanged="ScrollViewer_ScrollChanged"
+                      Style="{StaticResource iOsScrollViewerStyle}">
             <StackPanel Name="container" />
         </ScrollViewer>
     </Grid>

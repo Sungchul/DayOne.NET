@@ -24,5 +24,15 @@ namespace DayOne.NET
         {
             InitializeComponent();
         }
+
+        private void AddForwardClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddBackwardClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

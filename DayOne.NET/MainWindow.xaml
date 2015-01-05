@@ -7,6 +7,14 @@
         Width="781.881"
         Height="350">
     <Grid>
-        <My:CalendarViewer />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Add Forward" Click="AddForwardClick" />
+            <Button Content="Add Backward" Click="AddBackwardClick" />
+        </StackPanel>
+        <My:CalendarViewer Grid.Row="1" />
     </Grid>
 </Window>
