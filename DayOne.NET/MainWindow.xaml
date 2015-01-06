@@ -8,13 +8,16 @@
         Height="350">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Add Forward" Click="AddForwardClick" />
-            <Button Content="Add Backward" Click="AddBackwardClick" />
+            <Label Content="DropBox Path: " />
+            <TextBox Name="dropBoxAppPath"
+                     Width="500"
+                     Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
+            <Button Content="Test" Click="Button_Click" />
         </StackPanel>
-        <My:CalendarViewer Grid.Row="1" />
+        <My:CalendarViewer x:Name="canlendarViewer" Grid.Row="1" />
     </Grid>
 </Window>

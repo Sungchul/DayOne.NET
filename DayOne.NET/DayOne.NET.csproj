@@ -84,6 +84,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

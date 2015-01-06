@@ -31,21 +31,13 @@ namespace DayOne.NET
         public CalendarViewer()
         {
             InitializeComponent();
-
-            lastForwardDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            lastBackwardDateTime = lastForwardDateTime.AddMonths(-1);
-
-            todayCalendar = AddForwardCalendar();
-            AddForwardCalendar();
-            AddForwardCalendar();
-            
-            AddBackwardCalendar();
-            AddBackwardCalendar();
-            AddBackwardCalendar();
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            if (contentsList == null)
+                return;
+
             if (e.VerticalOffset < verticalOffsetForwardItemAddTriger) {
                 for (var i = 0; i < 5; i++) {
                     AddForwardCalendar();
@@ -62,14 +54,45 @@ namespace DayOne.NET
             }
         }
 
+
         private void GoToTodayCalendar()
         {
         }
 
+        public void InitializeCalendar(Dictionary<DateTime, List<string>> contentsList)
+        {
+            this.contentsList = contentsList;
+            
+            lastForwardDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            lastBackwardDateTime = lastForwardDateTime.AddMonths(-1);
+
+            todayCalendar = AddForwardCalendar();
+            AddForwardCalendar();
+            AddForwardCalendar();
+
+            AddBackwardCalendar();
+            AddBackwardCalendar();
+            AddBackwardCalendar();
+        }
+
+        private Dictionary<DateTime, List<string>> contentsList;
+
+        private IEnumerable<int> GetHasContentsDays(int year, int month)
+        {
+            if (contentsList == null || contentsList.Count == 0)
+                return null;
+
+            return contentsList.
+                Where(content => content.Key.Year == year && content.Key.Month == month).
+                Select(content => content.Key.Day);
+        }
+
+
         public CalendarControl AddForwardCalendar()
         {
             var calendar = new CalendarControl() { Height = 260 };
-            calendar.Initialize(lastForwardDateTime.Year, lastForwardDateTime.Month);
+            var hasContetnsdays = GetHasContentsDays(lastForwardDateTime.Year, lastForwardDateTime.Month);
+            calendar.Initialize(lastForwardDateTime.Year, lastForwardDateTime.Month, hasContetnsdays);
             container.Children.Insert(0, calendar);
 
             lastForwardDateTime = lastForwardDateTime.AddMonths(1);
@@ -80,7 +103,8 @@ namespace DayOne.NET
         public CalendarControl AddBackwardCalendar()
         {
             var calendar = new CalendarControl() { Height = 260 };
-            calendar.Initialize(lastBackwardDateTime.Year, lastBackwardDateTime.Month);
+            var hasContetnsdays = GetHasContentsDays(lastBackwardDateTime.Year, lastBackwardDateTime.Month);
+            calendar.Initialize(lastBackwardDateTime.Year, lastBackwardDateTime.Month, hasContetnsdays);
             container.Children.Add(calendar);
 
             lastBackwardDateTime = lastBackwardDateTime.AddMonths(-1);

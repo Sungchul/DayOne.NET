@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,18 +21,39 @@ namespace DayOne.NET
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly Dictionary<DateTime, List<string>> contentsList = new Dictionary<DateTime, List<string>>();
+
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        private void AddForwardClick(object sender, RoutedEventArgs e)
+        
+        private void LoadDateContentsDateTime(string entryDir)
         {
+            if (!Directory.Exists(entryDir))
+                throw new DirectoryNotFoundException();
 
+            contentsList.Clear();
+            var pathList = Directory.GetFiles(entryDir, "*.doentry");
+            foreach (var path in pathList) {
+                Dictionary<string, object> entry = Plist.readPlist(path) as Dictionary<string, object>;
+                var created = (DateTime)entry["Creation Date"];
+                var uuid = (string)entry["UUID"];
+
+                if (!contentsList.Keys.Contains(created)) {
+                    contentsList.Add(created, new List<string>() { uuid });
+                }
+                else {
+                    contentsList[created].Add(uuid);
+                }
+            }
         }
 
-        private void AddBackwardClick(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var selected = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
+            LoadDateContentsDateTime(selected);
+            canlendarViewer.InitializeCalendar(contentsList);
 
         }
     }

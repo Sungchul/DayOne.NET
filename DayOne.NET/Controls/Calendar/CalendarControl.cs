@@ -50,13 +50,30 @@ namespace DayOne.NET.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CalendarControl), new FrameworkPropertyMetadata(typeof(CalendarControl)));
         }
 
+
         public CalendarControl()
+            : this(DateTime.Today.Year, DateTime.Today.Month) { }
+
+        public CalendarControl(int year, int month) : this(year, month, null) { }
+
+        public CalendarControl(int year, int month, IEnumerable<int> hasContentDays)
         {
             DataContext = this;
-            
+
             Days = new ObservableCollection<Day>();
-            
-            Initialize(DateTime.Today.Year, DateTime.Today.Month);
+
+            Initialize(year, month, hasContentDays);
+        }
+
+        public void Initialize(int year, int month, IEnumerable<int> hasContentDays)
+        {
+            Initialize(year, month);
+
+            if (hasContentDays != null && hasContentDays.Count() > 0) {
+                var beginOfMonth = new DateTime(year, month, 1);
+                var offset = (int)beginOfMonth.DayOfWeek - 1;
+                hasContentDays.ToList().ForEach(day => Days[day + offset].HasContents = true);
+            }
         }
 
         public void Initialize(int year, int month)
@@ -79,10 +96,6 @@ namespace DayOne.NET.Controls
                 .Concat(Enumerable.Repeat<int>(0, (RowCount * 7) - sum));
 
             nums.ToList().ForEach(num => Days.Add(new Day(year, month, num)));
-
-            Days[10].HasContents = true;
-            Days[11].HasContents = true;
-            Days[17].HasContents = true;
         }
 
         private string GetMonthFullName(int month)
