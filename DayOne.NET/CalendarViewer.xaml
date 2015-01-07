@@ -8,10 +8,10 @@
              mc:Ignorable="d">
     <Grid>
 
-        <ScrollViewer Name="scrollViewer" 
+        <ScrollViewer Name="scrollViewer"
                       ScrollChanged="ScrollViewer_ScrollChanged"
                       Style="{StaticResource iOsScrollViewerStyle}">
-            <StackPanel Name="container" />
+            <StackPanel Name="container" Button.Click="EventHandlerName" />
         </ScrollViewer>
     </Grid>
 </UserControl>

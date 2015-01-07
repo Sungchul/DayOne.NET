@@ -123,11 +123,21 @@ namespace DayOne.NET.Controls
                     DateTime.Today.Year == year) {
                     IsToday = true;
                 }
+
+                ThisYear = year;
+                ThisMonth = month;
+                ThisDay = day;                    
             }
             else {
                 Visibility = System.Windows.Visibility.Hidden;
             }
         }
+
+        public int ThisYear { get; set; }
+
+        public int ThisMonth { get; set; }
+
+        public int ThisDay { get; set; }
 
         public bool IsToday {get; set;}
 

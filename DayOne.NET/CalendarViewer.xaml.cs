@@ -111,5 +111,12 @@ namespace DayOne.NET
 
             return calendar;
         }
+
+        private void EventHandlerName(object sender, RoutedEventArgs e)
+        {   
+            var day = (e.OriginalSource as Button).DataContext as Day;
+
+            MessageBox.Show(string.Format("Year: {0}, Month: {1}, Day: {2}", day.ThisYear, day.ThisMonth, day.ThisDay));
+        }
     }
 }

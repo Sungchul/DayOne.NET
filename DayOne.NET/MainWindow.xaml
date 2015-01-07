@@ -7,6 +7,12 @@
         Width="781.881"
         Height="350">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -15,8 +21,10 @@
             <Label Content="DropBox Path: " />
             <TextBox Name="dropBoxAppPath"
                      Width="500"
+                     Margin="5"
                      Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
-            <Button Content="Test" Click="Button_Click" />
+            <Button Click="TestButtonClick" Content="Test" />
+            <Button Click="BackButtonClick" Content="Back" />
         </StackPanel>
         <My:CalendarViewer x:Name="canlendarViewer" Grid.Row="1" />
     </Grid>

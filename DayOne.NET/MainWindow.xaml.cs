@@ -49,12 +49,17 @@ namespace DayOne.NET
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TestButtonClick(object sender, RoutedEventArgs e)
         {
             var selected = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
             LoadDateContentsDateTime(selected);
             canlendarViewer.InitializeCalendar(contentsList);
 
+        }
+
+        private void BackButtonClick(object sender, RoutedEventArgs e)
+        {
+            // 
         }
     }
 }
