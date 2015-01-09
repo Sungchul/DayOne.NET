@@ -21,6 +21,8 @@ namespace DayOne.NET
     /// </summary>
     public partial class CalendarViewer : UserControl
     {
+        public event EventHandler<DayItemSelectedArgs> DayItemSelected;
+
         private double verticalOffsetForwardItemAddTriger = 100;
         private double verticalOffsetBackwardItemAddTriger = 100;
 
@@ -112,11 +114,54 @@ namespace DayOne.NET
             return calendar;
         }
 
-        private void EventHandlerName(object sender, RoutedEventArgs e)
-        {   
+        private void MouseDoubleClickHandler(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left) {
+                var day = (e.OriginalSource as Button).DataContext as Day;
+
+                if (DayItemSelected != null) {
+                    var key = new DateTime(day.ThisYear, day.ThisMonth, day.ThisDay);
+                    if (contentsList.Keys.Contains(key)) {
+                        DayItemSelected(this, new DayItemSelectedArgs(key, contentsList[key]));
+                    }
+                    else {
+                        DayItemSelected(this, new DayItemSelectedArgs(key, null));
+                    }
+                }
+            }
+        }
+
+
+
+        private void MoutseButtonClickHandler(object sender, RoutedEventArgs e)
+        {
             var day = (e.OriginalSource as Button).DataContext as Day;
 
-            MessageBox.Show(string.Format("Year: {0}, Month: {1}, Day: {2}", day.ThisYear, day.ThisMonth, day.ThisDay));
+                if (DayItemSelected != null) {
+                    var key = new DateTime(day.ThisYear, day.ThisMonth, day.ThisDay);
+                    if (contentsList.Keys.Contains(key)) {
+                        DayItemSelected(this, new DayItemSelectedArgs(key, contentsList[key]));
+                    }
+                    else {
+                        DayItemSelected(this, new DayItemSelectedArgs(key, null));
+                    }
+                }
+            
+        }
+
+        
+    }
+
+    public class DayItemSelectedArgs : EventArgs
+    {
+        public DateTime SelectedDay { get; private set; }
+
+        public IEnumerable<string> SelectedUUIDs { get; private set; }
+
+        public DayItemSelectedArgs(DateTime day, IEnumerable<string> uuids)
+        {
+            SelectedDay = day;
+            SelectedUUIDs = uuids;
         }
     }
 }

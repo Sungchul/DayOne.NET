@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,9 +24,64 @@ namespace DayOne.NET
     {
         private readonly Dictionary<DateTime, List<string>> contentsList = new Dictionary<DateTime, List<string>>();
 
+
+        private readonly string PHOTO_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\photos";
+
+        private readonly string ENTRY_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
+
+        private readonly string ENTRY_TEMPLATE;
+
+        private MarkdownDeep.Markdown markdownProcessor;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            canlendarViewer.DayItemSelected += CanlendarViewerDayItemSelected;
+            var assembly = Assembly.GetExecutingAssembly();
+            ENTRY_TEMPLATE = new StreamReader(assembly.GetManifestResourceStream("DayOne.NET.ContetnsViewer.html")).ReadToEnd();
+
+            markdownProcessor = new MarkdownDeep.Markdown {
+                SafeMode = false,
+                ExtraMode = true,
+                AutoHeadingIDs = true,
+                MarkdownInHtml = true,
+                NewWindowForExternalLinks = true
+            };
+
+        }
+
+
+        private string GetHtmlContents(IEnumerable<string> entries)
+        {
+            var contetsHtml = string.Empty;
+
+            foreach (var entry in entries) {
+                var item = DayOneContent.ReadContents(entry);
+                contetsHtml += markdownProcessor.Transform(item.EntryText);
+            }
+            
+            return ENTRY_TEMPLATE.Replace("##STYLE##", "").Replace("##PICTURE##", "").Replace("##ENTRY##", contetsHtml);
+        }
+
+        private void CanlendarViewerDayItemSelected(object sender, DayItemSelectedArgs e)
+        {
+            if (e.SelectedUUIDs != null) {
+                var entries = GetEntryList(e.SelectedUUIDs);
+                contentsViewer.LoadContents(GetHtmlContents(entries));
+
+                contentsViewer.Visibility = System.Windows.Visibility.Visible;
+                canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        private IEnumerable<string> GetEntryList(IEnumerable<string> uuids)
+        {
+            if (uuids != null) {
+                return uuids.Select(id => ENTRY_PATH + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
+            }
+
+            return null;
         }
         
         private void LoadDateContentsDateTime(string entryDir)
@@ -38,13 +94,14 @@ namespace DayOne.NET
             foreach (var path in pathList) {
                 Dictionary<string, object> entry = Plist.readPlist(path) as Dictionary<string, object>;
                 var created = (DateTime)entry["Creation Date"];
+                var createdKey = new DateTime(created.Year, created.Month, created.Day);
                 var uuid = (string)entry["UUID"];
 
-                if (!contentsList.Keys.Contains(created)) {
-                    contentsList.Add(created, new List<string>() { uuid });
+                if (!contentsList.Keys.Contains(createdKey)) {
+                    contentsList.Add(createdKey, new List<string>() { uuid });
                 }
                 else {
-                    contentsList[created].Add(uuid);
+                    contentsList[createdKey].Add(uuid);
                 }
             }
         }
@@ -59,7 +116,8 @@ namespace DayOne.NET
 
         private void BackButtonClick(object sender, RoutedEventArgs e)
         {
-            // 
+            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
+            canlendarViewer.Visibility = System.Windows.Visibility.Visible; 
         }
     }
 }

@@ -11,7 +11,9 @@
         <ScrollViewer Name="scrollViewer"
                       ScrollChanged="ScrollViewer_ScrollChanged"
                       Style="{StaticResource iOsScrollViewerStyle}">
-            <StackPanel Name="container" Button.Click="EventHandlerName" />
+            <StackPanel Name="container"
+                        Button.Click="MoutseButtonClickHandler"
+                        Button.MouseDoubleClick="MouseDoubleClickHandler" />
         </ScrollViewer>
     </Grid>
 </UserControl>

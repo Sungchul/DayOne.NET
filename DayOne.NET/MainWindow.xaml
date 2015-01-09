@@ -27,5 +27,8 @@
             <Button Click="BackButtonClick" Content="Back" />
         </StackPanel>
         <My:CalendarViewer x:Name="canlendarViewer" Grid.Row="1" />
+        <My:ContentsViewer x:Name="contentsViewer"
+                           Grid.Row="1"
+                           Visibility="Collapsed" />
     </Grid>
 </Window>
