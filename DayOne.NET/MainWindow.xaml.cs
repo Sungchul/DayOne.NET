@@ -49,6 +49,9 @@ namespace DayOne.NET
                 NewWindowForExternalLinks = true
             };
 
+            // Temp            
+            LoadDateContentsDateTime(ENTRY_PATH);
+            canlendarViewer.InitializeCalendar(contentsList);
         }
 
 
@@ -108,16 +111,33 @@ namespace DayOne.NET
 
         private void TestButtonClick(object sender, RoutedEventArgs e)
         {
-            var selected = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
-            LoadDateContentsDateTime(selected);
-            canlendarViewer.InitializeCalendar(contentsList);
+            
 
         }
 
         private void BackButtonClick(object sender, RoutedEventArgs e)
         {
+            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
             contentsViewer.Visibility = System.Windows.Visibility.Hidden;
             canlendarViewer.Visibility = System.Windows.Visibility.Visible; 
+        }
+
+        private void NewButtonClick(object sender, RoutedEventArgs e)
+        {
+            contentsEditor.Visibility = System.Windows.Visibility.Visible;
+            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
+            canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
+
+            contentsEditor.InitilaizeContents();
+        }
+
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            contentsEditor.SaveContents(ENTRY_PATH);
+
+            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
+            contentsViewer.Visibility = System.Windows.Visibility.Visible;
+            canlendarViewer.Visibility = System.Windows.Visibility.Hidden; 
         }
     }
 }

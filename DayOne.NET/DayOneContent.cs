@@ -9,7 +9,6 @@ namespace DayOne.NET
 {
     public class DayOneContent
     {
-
         public string Activity { get; set; }
 
         public DateTime CreationDate { get; set; }
@@ -97,6 +96,37 @@ namespace DayOne.NET
         
         #endregion
 
+
+        public static DayOneContent Create()
+        {
+            return new DayOneContent() {
+                CreationDate = DateTime.Now.ToUniversalTime(),
+                
+                DeviceAgent = "Microsoft Windows",
+                GenerationDate = DateTime.Now.ToUniversalTime(),
+                HostName = Environment.MachineName,
+                OsAgent = Environment.OSVersion.ToString(),
+                SoftwareAgent = "Day One .NET/0.0.1",
+
+                IgnoreStepCount = true,
+
+                AdministrativeArea = "Daejeon",
+                Country = "South Korea",
+                Latitude = 36.418725047072911,
+                Locality = "Yuseonggu",
+                Longitude = 127.39112867620702,
+                PlaceName = "우리집",
+
+                CenterLatitude = 36.418831098692777,
+                CenterLongitude = 127.39205340000001,
+                Radius = 70.867135407212473,
+                
+                Starred = false,
+                StepCount = 0,
+                TimeZone = "Asia / Seoul",
+                UUID = Guid.NewGuid().ToString("N"),
+            };
+        }
 
         public static DayOneContent ReadContents(byte[] data)
         {
@@ -242,6 +272,65 @@ namespace DayOne.NET
             }
 
             return content;
+        }
+
+        public static void SaveDayOneContent(string path, DayOneContent content)
+        {
+            var entry = new Dictionary<string, object>();
+            entry.Add("Activity", content.Activity);
+            entry.Add("Creation Date", content.CreationDate);
+
+            var creator = new Dictionary<string, object>();
+            entry.Add("Creator", creator);
+            creator.Add("Device Agent", content.DeviceAgent);
+            creator.Add("Generation Date", content.GenerationDate);
+            creator.Add("Host Name", content.HostName);
+            creator.Add("OS Agent", content.OsAgent);
+            creator.Add("Software Agent", content.SoftwareAgent);
+
+            entry.Add("Entry Text", content.EntryText);
+            entry.Add("Ignore Step Count", content.IgnoreStepCount);
+
+            var location = new Dictionary<string, object>();
+            entry.Add("Location", location);
+            location.Add("Administrative Area", content.AdministrativeArea);
+            location.Add("Country", content.Country);
+            location.Add("Latitude", content.Latitude);
+            location.Add("Locality", content.Locality);
+            location.Add("Longitude", content.Longitude);
+            location.Add("Place Name", content.PlaceName);
+
+            var region = new Dictionary<string, object>();
+            location.Add("Region", region);
+
+            var center = new Dictionary<string, object>();
+            region.Add("Center", center);
+            center.Add("Latitude", content.CenterLatitude);
+            center.Add("Longitude", content.CenterLongitude);
+            region.Add("Radius", content.Radius);
+
+            entry.Add("Starred", content.Starred);
+            entry.Add("Step Count", content.StepCount);
+            entry.Add("Time Zone", content.TimeZone);
+            entry.Add("UUID", content.UUID);
+
+            //var weather = new Dictionary<string, object>();
+            //entry.Add("Weather", weather);
+            //weather.Add("Celsius", content.Celsius);
+            //weather.Add("Description", content.Description);
+            //weather.Add("Fahrenheit", content.Fahrenheit);
+            //weather.Add("IconName", content.IconName);
+            //weather.Add("Pressure MB", content.PressureMB);
+            //weather.Add("Relative Humidity", content.RelativeHumidity);
+            //weather.Add("Service", content.Service);
+            //weather.Add("Sunrise Date", content.SunriseDate);
+            //weather.Add("Sunset Date", content.SunsetDate);
+            //weather.Add("Visibility KM", content.VisibilityKM);
+            //weather.Add("Wind Bearing", content.WindBearing);
+            //weather.Add("Wind Chill Celsius", content.WindChillCelsius);
+            //weather.Add("Wind Speed KPH", content.WindSpeedKPH);
+
+            Plist.writeXml(entry, path);
         }
     }
 }

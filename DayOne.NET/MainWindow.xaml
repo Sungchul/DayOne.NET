@@ -13,22 +13,36 @@
                 <Setter Property="Margin" Value="5" />
             </Style>
         </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="302*" />
+            <ColumnDefinition Width="85*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
             <Label Content="DropBox Path: " />
             <TextBox Name="dropBoxAppPath"
-                     Width="500"
+                     Width="400"
                      Margin="5"
                      Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
             <Button Click="TestButtonClick" Content="Test" />
+            <Button Click="NewButtonClick" Content="New" />
             <Button Click="BackButtonClick" Content="Back" />
+            <Button Click="SaveButtonClick" Content="Save" />
         </StackPanel>
-        <My:CalendarViewer x:Name="canlendarViewer" Grid.Row="1" />
+        <My:CalendarViewer x:Name="canlendarViewer"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2" />
         <My:ContentsViewer x:Name="contentsViewer"
                            Grid.Row="1"
+                           Grid.ColumnSpan="2"
                            Visibility="Collapsed" />
+        <My:ContentsEditor x:Name="contentsEditor"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2" 
+                           Visibility="Collapsed" />
+
     </Grid>
 </Window>
