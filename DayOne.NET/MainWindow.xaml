@@ -27,7 +27,7 @@
                      Width="400"
                      Margin="5"
                      Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
-            <Button Click="TestButtonClick" Content="Test" />
+            <Button Click="TestButtonClick" Content="Today" />
             <Button Click="NewButtonClick" Content="New" />
             <Button Click="BackButtonClick" Content="Back" />
             <Button Click="SaveButtonClick" Content="Save" />
@@ -41,7 +41,7 @@
                            Visibility="Collapsed" />
         <My:ContentsEditor x:Name="contentsEditor"
                            Grid.Row="1"
-                           Grid.ColumnSpan="2" 
+                           Grid.ColumnSpan="2"
                            Visibility="Collapsed" />
 
     </Grid>

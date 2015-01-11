@@ -111,8 +111,8 @@ namespace DayOne.NET
 
         private void TestButtonClick(object sender, RoutedEventArgs e)
         {
-            
 
+            canlendarViewer.GoToTodayCalendar();
         }
 
         private void BackButtonClick(object sender, RoutedEventArgs e)

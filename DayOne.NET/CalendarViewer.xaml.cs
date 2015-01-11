@@ -57,8 +57,16 @@ namespace DayOne.NET
         }
 
 
-        private void GoToTodayCalendar()
+        public void GoToTodayCalendar()
         {
+            var yearDiff = lastForwardDateTime.Year - DateTime.Now.Year;
+            var monthDiff = lastForwardDateTime.Month - DateTime.Now.Month;
+
+            var calendarCount = (yearDiff * 12) + monthDiff - 1;
+            var offset = container.Children.OfType<CalendarControl>().Take(calendarCount).Sum(c => c.ActualHeight);
+
+            scrollViewer.UpdateLayout();
+            scrollViewer.ScrollToVerticalOffset(offset);
         }
 
         public void InitializeCalendar(Dictionary<DateTime, List<string>> contentsList)
@@ -131,8 +139,6 @@ namespace DayOne.NET
             }
         }
 
-
-
         private void MoutseButtonClickHandler(object sender, RoutedEventArgs e)
         {
             var day = (e.OriginalSource as Button).DataContext as Day;
@@ -150,6 +156,15 @@ namespace DayOne.NET
         }
 
         
+
+        private void GoToCalendar(int year, int month)
+        {
+            var calendar = container.Children.OfType<CalendarControl>().
+                FirstOrDefault(c => c.Year == year.ToString() && c.Month == month.ToString());
+
+            if (calendar != null) {
+            }
+        }
     }
 
     public class DayItemSelectedArgs : EventArgs
