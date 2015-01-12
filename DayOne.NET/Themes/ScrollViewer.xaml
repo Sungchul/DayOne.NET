@@ -76,6 +76,22 @@
                     </BeginStoryboard>
                 </EventTrigger.Actions>
             </EventTrigger>
+
+            <EventTrigger RoutedEvent="ValueChanged">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.1"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="1.0" />
+                            <DoubleAnimation BeginTime="0:0:3"
+                                             Duration="0:0:1.0"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
         </Style.Triggers>
     </Style>
 
@@ -99,25 +115,6 @@
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                    Value="{TemplateBinding VerticalOffset}" />
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="ScrollChanged">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.1"
-                                                         Storyboard.TargetName="PART_VerticalScrollBar"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="1.0" />
-                                        <DoubleAnimation BeginTime="0:0:3"
-                                                         Duration="0:0:1.0"
-                                                         Storyboard.TargetName="PART_VerticalScrollBar"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

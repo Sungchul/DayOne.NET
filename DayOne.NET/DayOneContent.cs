@@ -259,7 +259,7 @@ namespace DayOne.NET
                     content.SunsetDate = (DateTime)weather["Sunset Date"];
 
                 if (weather.Keys.Contains("Visibility KM"))
-                    content.VisibilityKM = (int)weather["Visibility KM"];
+                    content.VisibilityKM = Convert.ToInt32(weather["Visibility KM"]);
 
                 if (weather.Keys.Contains("Wind Bearing"))
                     content.WindBearing = (int)weather["Wind Bearing"];

@@ -52,26 +52,50 @@ namespace DayOne.NET
             // Temp            
             LoadDateContentsDateTime(ENTRY_PATH);
             canlendarViewer.InitializeCalendar(contentsList);
+            //contentsViewer.InitilaizeSession(PHOTO_PATH);
         }
 
+        
 
         private string GetHtmlContents(IEnumerable<string> entries)
         {
-            var contetsHtml = string.Empty;
+            var images = Directory.GetFiles(PHOTO_PATH, "*.jpg", SearchOption.TopDirectoryOnly);
 
-            foreach (var entry in entries) {
-                var item = DayOneContent.ReadContents(entry);
-                contetsHtml += markdownProcessor.Transform(item.EntryText);
-            }
+            var HasImage = new Func<string, bool>(uuid => {                
+                return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
+            });
+
+            var imgTagFormat = @"<img src=""{0}"" width=""100%"">";
+            var contetsHtml = entries.Select(
+                    path => {
+                        var entry = DayOneContent.ReadContents(path);
+                        var html = markdownProcessor.Transform(entry.EntryText);
+                        if (HasImage(entry.UUID)) {
+                            //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
+                            var imagePath = PHOTO_PATH + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
+                            var imageTag = string.Format(imgTagFormat, imagePath);
+                            html = imageTag + html;
+                        }
+
+                        return html;
+                    }).
+                Aggregate((e1, e2) => e1 + @"<hr />" + e2);
             
-            return ENTRY_TEMPLATE.Replace("##STYLE##", "").Replace("##PICTURE##", "").Replace("##ENTRY##", contetsHtml);
+
+            return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
         }
 
         private void CanlendarViewerDayItemSelected(object sender, DayItemSelectedArgs e)
         {
             if (e.SelectedUUIDs != null) {
-                var entries = GetEntryList(e.SelectedUUIDs);
-                contentsViewer.LoadContents(GetHtmlContents(entries));
+                var entries = GetEntryList(e.SelectedUUIDs);                
+                //contentsViewer.LoadContents(GetHtmlContents(entries));
+
+                var html = GetHtmlContents(entries);
+                File.WriteAllText("contents.html", html);
+                var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
+                contentsViewer.LoadContentsFromUri(uri);
+                //contentsViewer.LoadContents(html);
 
                 contentsViewer.Visibility = System.Windows.Visibility.Visible;
                 canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
