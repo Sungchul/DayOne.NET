@@ -81,11 +81,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContentItemViewer.xaml.cs">
+      <DependentUpon>ContentItemViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentsEditor.xaml.cs">
       <DependentUpon>ContentsEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="DayOneContent.cs" />
+    <Compile Include="SmallItemListViewer.xaml.cs">
+      <DependentUpon>SmallItemListViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SmallItemViewer.xaml.cs">
+      <DependentUpon>SmallItemViewer.xaml</DependentUpon>
+    </Compile>
     <Page Include="CalendarViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentItemViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,6 +130,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SmallItemListViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SmallItemViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Calendar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
