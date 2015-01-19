@@ -21,8 +21,67 @@ namespace DayOne.NET
     public partial class SmallItemViewer : UserControl
     {
         public SmallItemViewer()
-        {
+        {         
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(SmallItemViewer));
+
+        public string Title 
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty EntryProperty =
+            DependencyProperty.Register("Entry", typeof(string), typeof(SmallItemViewer));
+
+        public string Entry 
+        {
+            get { return (string)GetValue(EntryProperty); }
+            set { SetValue(EntryProperty, value); }
+        }
+
+        public static readonly DependencyProperty InfotmationProperty =
+            DependencyProperty.Register("Infotmation", typeof(string), typeof(SmallItemViewer));
+
+        public string Infotmation 
+        {
+            get { return (string)GetValue(InfotmationProperty); }
+            set { SetValue(InfotmationProperty, value); }
+        }
+
+        public void SetPhoto(string path)
+        {
+            brush.ImageSource = new BitmapImage(new Uri(path, UriKind.Relative));
+        }
+
+        public static readonly DependencyProperty ImageVisibilityProperty =
+            DependencyProperty.Register("ImageVisibility", typeof(Visibility), typeof(SmallItemViewer));
+
+        public Visibility ImageVisibility
+        {
+            get { return (Visibility)GetValue(ImageVisibilityProperty); }
+            set { SetValue(ImageVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty TitleVisibilityProperty =
+            DependencyProperty.Register("TitleVisibility", typeof(Visibility), typeof(SmallItemViewer));
+
+        public Visibility TitleVisibility
+        {
+            get { return (Visibility)GetValue(TitleVisibilityProperty); }
+            set { SetValue(TitleVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty SplitLineVisibilityProperty =
+            DependencyProperty.Register("SplitLineVisibility", typeof(Visibility), typeof(SmallItemViewer));
+
+        public Visibility SplitLineVisibility
+        {
+            get { return (Visibility)GetValue(SplitLineVisibilityProperty); }
+            set { SetValue(SplitLineVisibilityProperty, value); }
         }
     }
 }

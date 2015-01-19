@@ -4,7 +4,7 @@
         xmlns:Controls="clr-namespace:DayOne.NET.Controls"
         xmlns:My="clr-namespace:DayOne.NET"
         Title="MainWindow"
-        Width="781.881"
+        Width="979.881"
         Height="350">
     <Grid>
         <Grid.Resources>
@@ -28,13 +28,15 @@
                      Margin="5"
                      Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
             <Button Click="TestButtonClick" Content="Today" />
+            <Button Click="ListButtonClick" Content="List" />
             <Button Click="NewButtonClick" Content="New" />
             <Button Click="BackButtonClick" Content="Back" />
             <Button Click="SaveButtonClick" Content="Save" />
         </StackPanel>
         <My:CalendarViewer x:Name="canlendarViewer"
                            Grid.Row="1"
-                           Grid.ColumnSpan="2" />
+                           Grid.ColumnSpan="2" 
+                           Visibility="Collapsed"/>
         <My:ContentsViewer x:Name="contentsViewer"
                            Grid.Row="1"
                            Grid.ColumnSpan="2"
@@ -43,6 +45,11 @@
                            Grid.Row="1"
                            Grid.ColumnSpan="2"
                            Visibility="Collapsed" />
+
+        <My:ContentItemViewer x:Name="contentsItemViewer"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                            />
 
     </Grid>
 </Window>

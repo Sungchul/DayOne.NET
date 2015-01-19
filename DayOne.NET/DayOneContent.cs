@@ -96,6 +96,10 @@ namespace DayOne.NET
         
         #endregion
 
+        public string GetInformation()
+        {
+            return CreationDate.ToString();
+        }
 
         public static DayOneContent Create()
         {

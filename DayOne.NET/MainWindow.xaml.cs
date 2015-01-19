@@ -52,9 +52,8 @@ namespace DayOne.NET
             // Temp            
             LoadDateContentsDateTime(ENTRY_PATH);
             canlendarViewer.InitializeCalendar(contentsList);
-            //contentsViewer.InitilaizeSession(PHOTO_PATH);
+            contentsItemViewer.InitializeItemViewer(contentsList);
         }
-
         
 
         private string GetHtmlContents(IEnumerable<string> entries)
@@ -143,7 +142,8 @@ namespace DayOne.NET
         {
             contentsEditor.Visibility = System.Windows.Visibility.Hidden;
             contentsViewer.Visibility = System.Windows.Visibility.Hidden;
-            canlendarViewer.Visibility = System.Windows.Visibility.Visible; 
+            canlendarViewer.Visibility = System.Windows.Visibility.Visible;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
         }
 
         private void NewButtonClick(object sender, RoutedEventArgs e)
@@ -151,6 +151,7 @@ namespace DayOne.NET
             contentsEditor.Visibility = System.Windows.Visibility.Visible;
             contentsViewer.Visibility = System.Windows.Visibility.Hidden;
             canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
 
             contentsEditor.InitilaizeContents();
         }
@@ -161,6 +162,16 @@ namespace DayOne.NET
 
             contentsEditor.Visibility = System.Windows.Visibility.Hidden;
             contentsViewer.Visibility = System.Windows.Visibility.Visible;
+            canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void ListButtonClick(object sender, RoutedEventArgs e)
+        {
+            contentsItemViewer.Visibility = System.Windows.Visibility.Visible;
+
+            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
+            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
             canlendarViewer.Visibility = System.Windows.Visibility.Hidden; 
         }
     }
