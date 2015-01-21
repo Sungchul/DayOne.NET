@@ -6,11 +6,80 @@
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="60" />
+            <RowDefinition />            
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>        
+        <Grid.Resources>
+            <Style TargetType="{x:Type Separator}">
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </Grid.Resources>            
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontFamily" Value="Arial" />
+                        <Setter Property="FontSize" Value="19" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="MON" VerticalAlignment="Top">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+                <TextBlock Text="19" FontSize="60" Margin="-5, -10, 0, 0"/>
+                <StackPanel>
+                    <TextBlock Text="OCT" />
+                    <TextBlock Text="2013" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" >
+                        <Setter Property="Width" Value="40" />
+                        <Setter Property="Height" Value="40" />
+                    </Style>
+                    <Style TargetType="Separator" BasedOn="{StaticResource {x:Type Separator}}">
+                        <Setter Property="LayoutTransform">
+                            <Setter.Value>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <TransformCollection>
+                                            <RotateTransform Angle="90"/>
+                                        </TransformCollection>
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="09:25 AM" VerticalAlignment="Center" Margin="30,0" 
+                           FontFamily="Arial" FontSize="20" FontWeight="Bold"/>
+                <Button Content="Date" />
+                <Separator />
+                <Button Content="Map" />
+                <Separator />
+                <Button Content="Tag" />
+                <Separator />
+                <Button Content="Photo" />
+                <Separator />
+                <Button Content="Delete"/>
+                <Separator />
+                <Button Content="Star"/>
+            </StackPanel>
+            <Button Grid.Column="3" Width="100" Content="Done" Margin="10" />
+        <Separator Grid.Row="1"                 Grid.ColumnSpan="5" Margin="5,0" VerticalAlignment="Top"/>
         <TextBox Name="editor"
-                 Grid.Row="1"
+                 Grid.Row="1"                 Grid.Column="1"                 Grid.ColumnSpan="3"
                  AcceptsReturn="True"
                  Style="{StaticResource iOsTextBoxStyle}"
                  TextWrapping="Wrap"

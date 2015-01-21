@@ -17,7 +17,9 @@
                        VerticalAlignment="Top"
                        FontSize="25"
                        FontWeight="Bold"
-                       Text="{Binding ElementName=me, Path=DayName, Mode=OneWay}">
+                       Text="{Binding ElementName=me,
+                                      Path=DayName,
+                                      Mode=OneWay}">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="-90" />
                 </TextBlock.LayoutTransform>
@@ -26,10 +28,18 @@
                        VerticalAlignment="Top"
                        FontSize="80"
                        FontWeight="Bold"
-                       Text="{Binding ElementName=me, Path=Day, Mode=OneWay}" />
+                       Text="{Binding ElementName=me,
+                                      Path=Day,
+                                      Mode=OneWay}" />
         </StackPanel>
+        <Separator Grid.ColumnSpan="2"
+                   Margin="5,0,2,0"
+                   VerticalAlignment="Bottom"
+                   BorderBrush="LightGray"
+                   BorderThickness="1"
+                   Visibility="{Binding ElementName=me,
+                                        Path=SplitLineVisibility,
+                                        Mode=OneWay}" />
         <StackPanel Name="container" Grid.Column="1" />
-        <Separator BorderBrush="LightGray" BorderThickness="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="5,0,2,0"
-               Visibility="{Binding ElementName=me, Path=SplitLineVisibility, Mode=OneWay}"/>
     </Grid>
 </UserControl>

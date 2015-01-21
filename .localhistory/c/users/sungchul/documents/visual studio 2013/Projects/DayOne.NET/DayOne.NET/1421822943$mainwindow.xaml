@@ -1,0 +1,55 @@
+﻿<Window x:Class="DayOne.NET.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:DayOne.NET.Controls"
+        xmlns:My="clr-namespace:DayOne.NET"
+        Title="MainWindow"
+        Width="979.881"
+        Height="350">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="302*" />
+            <ColumnDefinition Width="85*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Label Content="DropBox Path: " />
+            <TextBox Name="dropBoxAppPath"
+                     Width="400"
+                     Margin="5"
+                     Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
+            <Button Click="TestButtonClick" Content="Today" />
+            <Button Click="ListButtonClick" Content="List" />
+            <Button Click="NewButtonClick" Content="New" />
+            <Button Click="BackButtonClick" Content="Back" />
+            <Button Click="SaveButtonClick" Content="Save" />
+        </StackPanel>
+        <My:CalendarViewer x:Name="canlendarViewer"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2" 
+                           Visibility="Collapsed"/>
+        <My:ContentsViewer x:Name="contentsViewer"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                           Visibility="Collapsed" />
+        <My:ContentsEditor x:Name="contentsEditor"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                           Visibility="Collapsed" />
+
+        <My:ContentItemViewer x:Name="contentsItemViewer"
+                           Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                            />
+
+    </Grid>
+</Window>

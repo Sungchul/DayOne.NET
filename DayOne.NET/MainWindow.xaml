@@ -4,9 +4,12 @@
         xmlns:Controls="clr-namespace:DayOne.NET.Controls"
         xmlns:My="clr-namespace:DayOne.NET"
         Title="MainWindow"
-        Width="979.881"
-        Height="350">
-    <Grid>
+        Width="1244.881"
+        Height="750"
+        Background="Black">
+    <Grid MaxWidth="1000"
+          Background="White"
+          ShowGridLines="False">
         <Grid.Resources>
             <Style TargetType="Button">
                 <Setter Property="Width" Value="50" />
@@ -14,42 +17,56 @@
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="302*" />
-            <ColumnDefinition Width="85*" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Label Content="DropBox Path: " />
-            <TextBox Name="dropBoxAppPath"
-                     Width="400"
-                     Margin="5"
-                     Text="C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone" />
-            <Button Click="TestButtonClick" Content="Today" />
-            <Button Click="ListButtonClick" Content="List" />
-            <Button Click="NewButtonClick" Content="New" />
-            <Button Click="BackButtonClick" Content="Back" />
-            <Button Click="SaveButtonClick" Content="Save" />
-        </StackPanel>
+        <Grid Background="Black">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="60" />
+                    <Setter Property="Height" Value="60" />
+                </Style>
+                <Style TargetType="Separator">
+                    <Setter Property="BorderBrush" Value="LightGray" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <StackPanel VerticalAlignment="Center">
+                <Button Content="New" />
+                <Separator />
+                <Button Content="List" />
+                <Separator />
+                <Button Content="Calendar" />
+                <Separator />
+                <Button Content="Map" />
+                <Separator />
+                <Button Content="Alarm" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <Separator />
+                <Button Width="30" Height="30" />
+            </StackPanel>
+        </Grid>
         <My:CalendarViewer x:Name="canlendarViewer"
                            Grid.Row="1"
-                           Grid.ColumnSpan="2" 
-                           Visibility="Collapsed"/>
+                           Grid.Column="1"
+                           Visibility="Collapsed" />
         <My:ContentsViewer x:Name="contentsViewer"
                            Grid.Row="1"
-                           Grid.ColumnSpan="2"
+                           Grid.Column="1"
                            Visibility="Collapsed" />
         <My:ContentsEditor x:Name="contentsEditor"
                            Grid.Row="1"
-                           Grid.ColumnSpan="2"
-                           Visibility="Collapsed" />
-
+                           Grid.Column="1" />
         <My:ContentItemViewer x:Name="contentsItemViewer"
-                           Grid.Row="1"
-                           Grid.ColumnSpan="2"
-                            />
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              Visibility="Collapsed" />
 
     </Grid>
 </Window>
