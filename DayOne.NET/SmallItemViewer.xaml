@@ -1,45 +1,72 @@
 ﻿<UserControl x:Class="DayOne.NET.SmallItemViewer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Name="me"
-             d:DesignWidth="900">
+             d:DesignWidth="900"
+             mc:Ignorable="d">
     <StackPanel>
-    <DockPanel LastChildFill="true" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <Rectangle RadiusX="10" RadiusY="10" Margin="3" VerticalAlignment="Top"
-                   Visibility="{Binding ElementName=me, Path=ImageVisibility, Mode=OneWay}"
-                   Width="130" Height="130">
-            <Rectangle.Fill>
-                <ImageBrush x:Name="brush"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        <DockPanel HorizontalAlignment="Stretch" LastChildFill="true">
-            <TextBlock Name="title" DockPanel.Dock="Top" Margin="5,5,5,0"
-                       Text="{Binding ElementName=me, Path=Title, Mode=OneWay}"
-                       Visibility="{Binding ElementName=me, Path=TitleVisibility, Mode=OneWay}"
-                       TextTrimming="WordEllipsis"
-                       Height="Auto"
-                       FontWeight="Bold"
-                       FontSize="19"/>            
-            <TextBlock Name="additianal" DockPanel.Dock="Bottom"
-                       Text="{Binding ElementName=me, Path=Infotmation, Mode=OneWay}"
-                       Height="Auto"
-                       FontWeight="Bold" Margin="5,0,0,3"
-                       Foreground="#FF1EA6C8" 
-                       TextTrimming="WordEllipsis"/>
-            <TextBlock Name="contents"
-                       Text="{Binding ElementName=me, Path=Entry, Mode=OneWay}"
-                       TextTrimming="WordEllipsis" TextWrapping="Wrap"
-                       Margin="5,5" 
-                       MaxHeight="100"
-                       LineHeight="21"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                       FontSize="16"/>
+        <DockPanel HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   LastChildFill="true">
+            <Rectangle Width="130"
+                       Height="130"
+                       Margin="3"
+                       VerticalAlignment="Top"
+                       RadiusX="10"
+                       RadiusY="10"
+                       Visibility="{Binding ElementName=me,
+                                            Path=ImageVisibility,
+                                            Mode=OneWay}">
+                <Rectangle.Fill>
+                    <ImageBrush x:Name="brush" />
+                </Rectangle.Fill>
+            </Rectangle>
+            <DockPanel HorizontalAlignment="Stretch" LastChildFill="true">
+                <TextBlock Name="title"
+                           Height="Auto"
+                           Margin="5,5,5,0"
+                           DockPanel.Dock="Top"
+                           FontSize="19"
+                           FontWeight="Bold"
+                           Text="{Binding ElementName=me,
+                                          Path=Title,
+                                          Mode=OneWay}"
+                           TextTrimming="WordEllipsis"
+                           Visibility="{Binding ElementName=me,
+                                                Path=TitleVisibility,
+                                                Mode=OneWay}" />
+                <TextBlock Name="additianal"
+                           Height="Auto"
+                           Margin="5,0,0,3"
+                           DockPanel.Dock="Bottom"
+                           FontWeight="Bold"
+                           Foreground="#FF1EA6C8"
+                           Text="{Binding ElementName=me,
+                                          Path=Infotmation,
+                                          Mode=OneWay}"
+                           TextTrimming="WordEllipsis" />
+                <TextBlock Name="contents"
+                           MaxHeight="100"
+                           Margin="5,5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           FontSize="16"
+                           LineHeight="21"
+                           Text="{Binding ElementName=me,
+                                          Path=Entry,
+                                          Mode=OneWay}"
+                           TextTrimming="WordEllipsis"
+                           TextWrapping="Wrap" />
+            </DockPanel>
         </DockPanel>
-    </DockPanel>
-    <Separator BorderBrush="LightGray" BorderThickness="1" DockPanel.Dock="Bottom" Margin="3,0"
-               Visibility="{Binding ElementName=me, Path=SplitLineVisibility, Mode=OneWay}"/>
+        <Separator Margin="3,0"
+                   BorderBrush="LightGray"
+                   BorderThickness="1"
+                   DockPanel.Dock="Bottom"
+                   Visibility="{Binding ElementName=me,
+                                        Path=SplitLineVisibility,
+                                        Mode=OneWay}" />
     </StackPanel>
 </UserControl>

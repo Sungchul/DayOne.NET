@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="DayOne.NET.SmallItemViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             x:Name="me"
+             d:DesignWidth="900">
+    <StackPanel>
+    <DockPanel LastChildFill="true" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Rectangle RadiusX="10" RadiusY="10" Margin="3" VerticalAlignment="Top"
+                   Visibility="{Binding ElementName=me, Path=ImageVisibility, Mode=OneWay}"
+                   Width="130" Height="130">
+            <Rectangle.Fill>
+                <ImageBrush x:Name="brush"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <DockPanel HorizontalAlignment="Stretch" LastChildFill="true">
+            <TextBlock Name="title" DockPanel.Dock="Top" Margin="5,5,5,0"
+                       Text="{Binding ElementName=me, Path=Title, Mode=OneWay}"
+                       Visibility="{Binding ElementName=me, Path=TitleVisibility, Mode=OneWay}"
+                       TextTrimming="WordEllipsis"
+                       Height="Auto"
+                       FontWeight="Bold"
+                       FontSize="19"/>            
+            <TextBlock Name="additianal" DockPanel.Dock="Bottom"
+                       Text="{Binding ElementName=me, Path=Infotmation, Mode=OneWay}"
+                       Height="Auto"
+                       FontWeight="Bold" Margin="5,0,0,3"
+                       Foreground="#FF1EA6C8" 
+                       TextTrimming="WordEllipsis"/>
+            <TextBlock Name="contents"
+                       Text="{Binding ElementName=me, Path=Entry, Mode=OneWay}"
+                       TextTrimming="WordEllipsis" TextWrapping="Wrap"
+                       Margin="5,5" 
+                       MaxHeight="100"
+                       LineHeight="21"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                       FontSize="16"/>
+        </DockPanel>
+    </DockPanel>
+    <Separator BorderBrush="LightGray" BorderThickness="1" DockPanel.Dock="Bottom" Margin="3,0"
+               Visibility="{Binding ElementName=me, Path=SplitLineVisibility, Mode=OneWay}"/>
+    </StackPanel>
+</UserControl>

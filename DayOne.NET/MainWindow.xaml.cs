@@ -132,47 +132,43 @@ namespace DayOne.NET
             }
         }
 
-        private void TestButtonClick(object sender, RoutedEventArgs e)
-        {
-
-            canlendarViewer.GoToTodayCalendar();
-        }
-
-        private void BackButtonClick(object sender, RoutedEventArgs e)
-        {
-            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
-            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
-            canlendarViewer.Visibility = System.Windows.Visibility.Visible;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
-        }
-
         private void NewButtonClick(object sender, RoutedEventArgs e)
         {
+            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
+            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
+            
             contentsEditor.Visibility = System.Windows.Visibility.Visible;
-            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
-            canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
-
             contentsEditor.InitilaizeContents();
-        }
-
-        private void SaveButtonClick(object sender, RoutedEventArgs e)
-        {
-            contentsEditor.SaveContents(ENTRY_PATH);
-
-            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
-            contentsViewer.Visibility = System.Windows.Visibility.Visible;
-            canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Hidden;
         }
 
         private void ListButtonClick(object sender, RoutedEventArgs e)
         {
             contentsItemViewer.Visibility = System.Windows.Visibility.Visible;
 
-            contentsEditor.Visibility = System.Windows.Visibility.Hidden;
-            contentsViewer.Visibility = System.Windows.Visibility.Hidden;
-            canlendarViewer.Visibility = System.Windows.Visibility.Hidden; 
+            contentsEditor.Visibility = System.Windows.Visibility.Collapsed;
+            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
+            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed; 
+        }
+
+        private void CalendarButtonClick(object sender, RoutedEventArgs e)
+        {
+            contentsEditor.Visibility = System.Windows.Visibility.Collapsed;
+            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
+
+            canlendarViewer.Visibility = System.Windows.Visibility.Visible;
+            canlendarViewer.GoToTodayCalendar();
+        }
+
+        private void MapButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("준비중");
+        }
+
+        private void AlarmButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("준비중");
         }
     }
 }

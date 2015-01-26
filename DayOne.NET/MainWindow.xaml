@@ -37,15 +37,15 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <StackPanel VerticalAlignment="Center">
-                <Button Content="New" />
+                <Button Click="NewButtonClick" Content="New" />
                 <Separator />
-                <Button Content="List" />
+                <Button Click="ListButtonClick" Content="List" />
                 <Separator />
-                <Button Content="Calendar" />
+                <Button Click="CalendarButtonClick" Content="Calendar" />
                 <Separator />
-                <Button Content="Map" />
+                <Button Click="MapButtonClick" Content="Map" />
                 <Separator />
-                <Button Content="Alarm" />
+                <Button Click="AlarmButtonClick" Content="Alarm" />
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Separator />
@@ -62,11 +62,11 @@
                            Visibility="Collapsed" />
         <My:ContentsEditor x:Name="contentsEditor"
                            Grid.Row="1"
-                           Grid.Column="1" />
+                           Grid.Column="1"
+                           Visibility="Collapsed" />
         <My:ContentItemViewer x:Name="contentsItemViewer"
                               Grid.Row="1"
-                              Grid.Column="1"
-                              Visibility="Collapsed" />
+                              Grid.Column="1" />
 
     </Grid>
 </Window>
