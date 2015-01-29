@@ -63,7 +63,9 @@ namespace DayOne.NET
             var monthDiff = lastForwardDateTime.Month - DateTime.Now.Month;
 
             var calendarCount = (yearDiff * 12) + monthDiff - 1;
-            var offset = container.Children.OfType<CalendarControl>().Take(calendarCount).Sum(c => c.ActualHeight);
+            var controls = container.Children.OfType<CalendarControl>();
+            
+            var offset = container.Children.OfType<CalendarControl>().Take(calendarCount).Sum(c => c.Height);
 
             scrollViewer.UpdateLayout();
             scrollViewer.ScrollToVerticalOffset(offset);
@@ -79,7 +81,11 @@ namespace DayOne.NET
             todayCalendar = AddForwardCalendar();
             AddForwardCalendar();
             AddForwardCalendar();
+            AddForwardCalendar();
+            AddForwardCalendar();
 
+            AddBackwardCalendar();
+            AddBackwardCalendar();
             AddBackwardCalendar();
             AddBackwardCalendar();
             AddBackwardCalendar();

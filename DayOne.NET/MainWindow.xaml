@@ -8,7 +8,6 @@
         Height="750"
         Background="Black">
     <Grid MaxWidth="1000"
-          Background="White"
           ShowGridLines="False">
         <Grid.Resources>
             <Style TargetType="Button">
@@ -54,18 +53,18 @@
         </Grid>
         <My:CalendarViewer x:Name="canlendarViewer"
                            Grid.Row="1"
-                           Grid.Column="1"
+                           Grid.Column="1" Background="White"
                            Visibility="Collapsed" />
         <My:ContentsViewer x:Name="contentsViewer"
                            Grid.Row="1"
-                           Grid.Column="1"
+                           Grid.Column="1" Background="White"
                            Visibility="Collapsed" />
         <My:ContentsEditor x:Name="contentsEditor"
                            Grid.Row="1"
-                           Grid.Column="1"
+                           Grid.Column="1" Background="White"
                            Visibility="Collapsed" />
         <My:ContentItemViewer x:Name="contentsItemViewer"
-                              Grid.Row="1"
+                              Grid.Row="1" Background="White"
                               Grid.Column="1" />
 
     </Grid>
