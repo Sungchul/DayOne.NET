@@ -70,31 +70,19 @@ Section "DayOne.NET Excution File" DayOneNET_Install
 	!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 	;create start-menu items
 		CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\TAPLOT.lnk" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" "" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" 0
-		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Options.lnk" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" "/option" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" 0
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\DayOne.NET.lnk" "$INSTDIR\DayOne.NET.exe" "" "$INSTDIR\DayOne.NET" 0
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-		CreateShortCut "$DESKTOP\TAPLOT.lnk" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" "" "$INSTDIR\Jit.Taplot.TaplotWindow.exe" 0
+		CreateShortCut "$DESKTOP\DayOne.NET.lnk" "$INSTDIR\DayOne.NET.exe" "" "$INSTDIR\DayOne.NET" 0
 	!insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
-
-Section "Sample Resource File" Resource_Install
-	;SetOutPath "$INSTDIR" 
-	;File "user_timeparsers.xml"
- 
-	;SetOutPath "$INSTDIR\parsing_rule" 
-	;File "parsing_rule\KOMPSAT2_K13_SAMPLE.xml"
-SectionEnd
-
 ;--------------------------------
 ;Descriptions
 ;Language strings
-LangString DESC_ExeInstall ${LANG_ENGLISH} "A TAPLOT essential excution packages."
-LangString DESC_ResouceInstall ${LANG_ENGLISH} "A TAPLOT sample resource packages. e.g. time parser samples, date processing samples..."
+LangString DESC_ExeInstall ${LANG_ENGLISH} "A DayOne.NET essential excution packages."
 
 ;Assign language strings to sections
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 	!insertmacro MUI_DESCRIPTION_TEXT ${DayOneNET_Install} $(DESC_ExeInstall)
-	!insertmacro MUI_DESCRIPTION_TEXT ${Resource_Install} $(DESC_ResouceInstall)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -108,14 +96,13 @@ Section "Uninstall"
 	;Remove the installation directory
 	RMDir "$INSTDIR" 
 	
-	Delete "$DESKTOP\TAPLOT.lnk"
+	Delete "$DESKTOP\DayOne.NET.lnk"
 	!insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
  
-	Delete "$SMPROGRAMS\$StartMenuFolder\TAPLOT.lnk"
-	Delete "$SMPROGRAMS\$StartMenuFolder\Options.lnk"
+	Delete "$SMPROGRAMS\$StartMenuFolder\DayOne.NET.lnk"
 	Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
  
 	RMDir "$SMPROGRAMS\$StartMenuFolder"
 
-	DeleteRegKey /ifempty HKCU "Software\TAPLOT"
+	DeleteRegKey /ifempty HKCU "Software\DayOne.NET"
 SectionEnd
