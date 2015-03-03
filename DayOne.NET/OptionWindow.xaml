@@ -6,6 +6,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -13,11 +14,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Text="DropBox Path: " VerticalAlignment="Center" HorizontalAlignment="Right" />
-        <TextBox Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5" />
-        <StackPanel Grid.ColumnSpan="2" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button Content="Save" Width="90" Height="30" Margin="5"/>
-            <Button Content="Cancel" Width="90" Height="30" Margin="5,10"/>
-
+        <TextBox Name="dropBoxPathTextBox" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5" />
+        <Button Grid.Column="2" Content="..." Width="50" Height="20" Margin="5" Click="OpenDropBoxPathClick"/>
+        <StackPanel Grid.ColumnSpan="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Name="saveButton" Content="Save" IsEnabled="False" Width="90" Height="30" Margin="5" Click="SaveButtonClick"/>
+            <Button Content="Cancel" Width="90" Height="30" Margin="5,10" Click="CancelButtonClick"/>
         </StackPanel>
     </Grid>
 </Window>

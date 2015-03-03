@@ -48,7 +48,7 @@
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Separator />
-                <Button Width="30" Height="30" />
+                <Button Width="30" Height="30" Click="OpenOptionButtonClick" />
             </StackPanel>
         </Grid>
         <My:CalendarViewer x:Name="canlendarViewer"

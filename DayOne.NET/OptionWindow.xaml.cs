@@ -23,5 +23,46 @@ namespace DayOne.NET
         {
             InitializeComponent();
         }
+
+        private void OpenDropBoxPathClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                // TO Do!! Localize!!!
+                
+                if (!System.IO.Directory.Exists(dialog.SelectedPath + ConfigManager.BaseEntryPath)) {
+                    MessageBox.Show("선택된 DropBox 경로에서 Entry 폴더를 찾을 수 없습니다.");
+                    saveButton.IsEnabled = false;
+                    return;
+                }
+
+                if (!System.IO.Directory.Exists(dialog.SelectedPath + ConfigManager.BasePhotoPath)) {
+                    MessageBox.Show("선택된 DropBox 경로에서 Photo 폴더를 찾을 수 없습니다.");
+                    saveButton.IsEnabled = false;
+                    return;
+                }
+
+                dropBoxPathTextBox.Text = dialog.SelectedPath;
+                saveButton.IsEnabled = true;
+            }
+        }
+
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            ConfigManager.DropBoxPath = dropBoxPathTextBox.Text;
+            ConfigManager.EntryPath = dropBoxPathTextBox.Text + ConfigManager.BaseEntryPath;
+            ConfigManager.PhotoPath = dropBoxPathTextBox.Text + ConfigManager.BasePhotoPath;
+
+            ConfigManager.SaveConfig();
+            
+            DialogResult = true;
+            this.Close();
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            this.Close();
+        }
     }
 }

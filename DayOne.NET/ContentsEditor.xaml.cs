@@ -128,6 +128,12 @@ namespace DayOne.NET
         private void DoneButtonClick(object sender, RoutedEventArgs e)
         {
             SaveContents(ENTRY_PATH);
+            // GoTo...
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

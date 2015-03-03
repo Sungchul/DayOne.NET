@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigManager.cs" />
     <Compile Include="ContentItemViewer.xaml.cs">
       <DependentUpon>ContentItemViewer.xaml</DependentUpon>
     </Compile>

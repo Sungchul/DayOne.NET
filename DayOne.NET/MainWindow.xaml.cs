@@ -170,5 +170,11 @@ namespace DayOne.NET
         {
             MessageBox.Show("준비중");
         }
+
+        private void OpenOptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            var option = new OptionWindow();
+            option.ShowDialog();
+        }
     }
 }

@@ -93,7 +93,7 @@
             <Separator />
             <Button Content="Tag" />
             <Separator />
-            <Button Content="Photo" />
+            <Button Content="Photo" Click="Button_Click" />
             <Separator />
             <Button Content="Delete" />
             <Separator />
