@@ -149,16 +149,16 @@ namespace DayOne.NET
         {
             var day = (e.OriginalSource as Button).DataContext as Day;
 
-                if (DayItemSelected != null) {
-                    var key = new DateTime(day.ThisYear, day.ThisMonth, day.ThisDay);
-                    if (contentsList.Keys.Contains(key)) {
-                        DayItemSelected(this, new DayItemSelectedArgs(key, contentsList[key]));
-                    }
-                    else {
-                        DayItemSelected(this, new DayItemSelectedArgs(key, null));
-                    }
+            if (DayItemSelected != null) {
+                var key = new DateTime(day.ThisYear, day.ThisMonth, day.ThisDay);
+                if (contentsList.Keys.Contains(key)) {
+                    DayItemSelected(this, new DayItemSelectedArgs(key, contentsList[key]));
                 }
-            
+                else {
+                    DayItemSelected(this, new DayItemSelectedArgs(key, null));
+                }
+            }
+
         }
 
         

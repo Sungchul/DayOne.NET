@@ -25,98 +25,96 @@ namespace DayOne.NET
         private readonly Dictionary<DateTime, List<string>> contentsList = new Dictionary<DateTime, List<string>>();
 
 
-        private readonly string PHOTO_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\photos";
-
-        private readonly string ENTRY_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
-
-        private readonly string ENTRY_TEMPLATE;
-
-        private MarkdownDeep.Markdown markdownProcessor;
-
+        
         public MainWindow()
         {
             InitializeComponent();
 
-            canlendarViewer.DayItemSelected += CanlendarViewerDayItemSelected;
-            var assembly = Assembly.GetExecutingAssembly();
-            ENTRY_TEMPLATE = new StreamReader(assembly.GetManifestResourceStream("DayOne.NET.ContetnsViewer.html")).ReadToEnd();
+            // DropBox 파일 경로가 있는지...
+            ConfigManager.LoadConfig();
+            if (!Directory.Exists(ConfigManager.EntryPath) || !Directory.Exists(ConfigManager.PhotoPath)) {
+                MessageBox.Show("올바른 DropBox 경로를 찾을 수 없습니다.");
+                
+                var option = new OptionWindow();
+                if (option.ShowDialog() != true) {
+                    MessageBox.Show("DayOne과 연동된 DropBox 경로를 설정해야만 프로그램을 시작 할 수 있습니다.");
+                    this.Close();
+                }
+            }
 
-            markdownProcessor = new MarkdownDeep.Markdown {
-                SafeMode = false,
-                ExtraMode = true,
-                AutoHeadingIDs = true,
-                MarkdownInHtml = true,
-                NewWindowForExternalLinks = true
-            };
+            canlendarViewer.DayItemSelected += CanlendarViewerDayItemSelected;
 
             // Temp            
-            LoadDateContentsDateTime(ENTRY_PATH);
+            LoadDateContentsDateTime();
             canlendarViewer.InitializeCalendar(contentsList);
             contentsItemViewer.InitializeItemViewer(contentsList);
+
+            contentsEditor.EditDone += (o, e) => {
+                LoadDateContentsDateTime(); // Referesh
+                contentsItemViewer.InitializeItemViewer(contentsList);
+                ShowListView();
+            };
         }
         
 
-        private string GetHtmlContents(IEnumerable<string> entries)
-        {
-            var images = Directory.GetFiles(PHOTO_PATH, "*.jpg", SearchOption.TopDirectoryOnly);
+        //private string GetHtmlContents(IEnumerable<string> entries)
+        //{
+        //    var images = Directory.GetFiles(PHOTO_PATH, "*.jpg", SearchOption.TopDirectoryOnly);
 
-            var HasImage = new Func<string, bool>(uuid => {                
-                return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
-            });
+        //    var HasImage = new Func<string, bool>(uuid => {                
+        //        return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
+        //    });
 
-            var imgTagFormat = @"<img src=""{0}"" width=""100%"">";
-            var contetsHtml = entries.Select(
-                    path => {
-                        var entry = DayOneContent.ReadContents(path);
-                        var html = markdownProcessor.Transform(entry.EntryText);
-                        if (HasImage(entry.UUID)) {
-                            //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
-                            var imagePath = PHOTO_PATH + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
-                            var imageTag = string.Format(imgTagFormat, imagePath);
-                            html = imageTag + html;
-                        }
+        //    var imgTagFormat = @"<img src=""{0}"" width=""100%"">";
+        //    var contetsHtml = entries.Select(
+        //            path => {
+        //                var entry = DayOneContent.ReadContents(path);
+        //                var html = markdownProcessor.Transform(entry.EntryText);
+        //                if (HasImage(entry.UUID)) {
+        //                    //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
+        //                    var imagePath = PHOTO_PATH + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
+        //                    var imageTag = string.Format(imgTagFormat, imagePath);
+        //                    html = imageTag + html;
+        //                }
 
-                        return html;
-                    }).
-                Aggregate((e1, e2) => e1 + @"<hr />" + e2);
+        //                return html;
+        //            }).
+        //        Aggregate((e1, e2) => e1 + @"<hr />" + e2);
             
 
-            return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
-        }
+        //    return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
+        //}
 
         private void CanlendarViewerDayItemSelected(object sender, DayItemSelectedArgs e)
         {
             if (e.SelectedUUIDs != null) {
-                var entries = GetEntryList(e.SelectedUUIDs);                
-                //contentsViewer.LoadContents(GetHtmlContents(entries));
-
-                var html = GetHtmlContents(entries);
-                File.WriteAllText("contents.html", html);
-                var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
-                contentsViewer.LoadContentsFromUri(uri);
-                //contentsViewer.LoadContents(html);
+                //var entries = GetEntryList(e.SelectedUUIDs);
+                //var html = GetHtmlContents(entries);
+                //File.WriteAllText("contents.html", html);
+                //var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
+                contentsViewer.LoadContentsFromUri(e.SelectedDay, e.SelectedUUIDs);
 
                 contentsViewer.Visibility = System.Windows.Visibility.Visible;
                 canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
             }
         }
 
-        private IEnumerable<string> GetEntryList(IEnumerable<string> uuids)
-        {
-            if (uuids != null) {
-                return uuids.Select(id => ENTRY_PATH + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
-            }
+        //private IEnumerable<string> GetEntryList(IEnumerable<string> uuids)
+        //{
+        //    if (uuids != null) {
+        //        return uuids.Select(id => ENTRY_PATH + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
         
-        private void LoadDateContentsDateTime(string entryDir)
+        private void LoadDateContentsDateTime()
         {
-            if (!Directory.Exists(entryDir))
+            if (!Directory.Exists(ConfigManager.EntryPath))
                 throw new DirectoryNotFoundException();
 
             contentsList.Clear();
-            var pathList = Directory.GetFiles(entryDir, "*.doentry");
+            var pathList = Directory.GetFiles(ConfigManager.EntryPath, "*.doentry");
             foreach (var path in pathList) {
                 Dictionary<string, object> entry = Plist.readPlist(path) as Dictionary<string, object>;
                 var created = (DateTime)entry["Creation Date"];
@@ -144,6 +142,11 @@ namespace DayOne.NET
 
         private void ListButtonClick(object sender, RoutedEventArgs e)
         {
+            ShowListView();
+        }
+
+        private void ShowListView()
+        {
             contentsItemViewer.Visibility = System.Windows.Visibility.Visible;
 
             contentsEditor.Visibility = System.Windows.Visibility.Collapsed;
@@ -158,6 +161,9 @@ namespace DayOne.NET
             contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
 
             canlendarViewer.Visibility = System.Windows.Visibility.Visible;
+            canlendarViewer.GoToTodayCalendar();
+            
+            // trick
             canlendarViewer.GoToTodayCalendar();
         }
 

@@ -200,6 +200,9 @@
   <ItemGroup>
     <Resource Include="day_one_icon_256px.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SampleData\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

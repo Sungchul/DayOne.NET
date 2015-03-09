@@ -20,6 +20,8 @@ namespace DayOne.NET
     /// </summary>
     public partial class ContentsEditor : UserControl
     {
+        public event EventHandler<EventArgs> EditDone;
+
         public DayOneContent currentEntry;
 
         public ContentsEditor()
@@ -98,6 +100,7 @@ namespace DayOne.NET
             Day = DateTime.Now.Day.ToString();
             DayName = AbbreviatedDayName(DateTime.Now);
             Time = DateTime.Now.ToString("hh:mm tt", new System.Globalization.CultureInfo("en-US"));
+            editor.Text = string.Empty;
         }
 
         public void LoadContents(DayOneContent entry)
@@ -128,7 +131,9 @@ namespace DayOne.NET
         private void DoneButtonClick(object sender, RoutedEventArgs e)
         {
             SaveContents(ENTRY_PATH);
-            // GoTo...
+
+            if (EditDone != null)
+                EditDone(this, EventArgs.Empty);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

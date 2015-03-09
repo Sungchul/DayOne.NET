@@ -22,6 +22,8 @@ namespace DayOne.NET
         public OptionWindow()
         {
             InitializeComponent();
+
+            dropBoxPathTextBox.Text = ConfigManager.DropBoxPath;
         }
 
         private void OpenDropBoxPathClick(object sender, RoutedEventArgs e)
