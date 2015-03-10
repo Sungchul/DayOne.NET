@@ -25,16 +25,20 @@ namespace DayOne.NET
     /// </summary>
     public partial class ContentsViewer : UserControl
     {
-        
+        private Dictionary<DateTime, List<string>> contentsList;
+        private IEnumerable<DateTime> dateTimeList;
 
         private MarkdownDeep.Markdown markdownProcessor;
 
-        private readonly string ENTRY_TEMPLATE;
+        private string ENTRY_TEMPLATE;
 
         public ContentsViewer()
         {
             InitializeComponent();
+        }
 
+        public void InitializeViewer(Dictionary<DateTime, List<string>> contentsList)
+        {
             markdownProcessor = new MarkdownDeep.Markdown {
                 SafeMode = false,
                 ExtraMode = true,
@@ -44,9 +48,14 @@ namespace DayOne.NET
             };
 
             var assembly = Assembly.GetExecutingAssembly();
-            ENTRY_TEMPLATE = 
+            ENTRY_TEMPLATE =
                 new StreamReader(assembly.GetManifestResourceStream("DayOne.NET.ContetnsViewer.html")).ReadToEnd();
+
+            this.contentsList = contentsList;
+            this.dateTimeList = contentsList.Keys.OrderBy(x => x);
         }
+
+        #region DependencyProperty
 
         public static readonly DependencyProperty YearNumProperty =
             DependencyProperty.Register("Year", typeof(string), typeof(ContentsViewer));
@@ -93,6 +102,26 @@ namespace DayOne.NET
             set { SetValue(TimeProperty, value); }
         }
 
+        public static readonly DependencyProperty IsHavePreviousItemProperty =
+            DependencyProperty.Register("IsHavePreviousItem", typeof(bool), typeof(ContentsViewer));
+
+        public bool IsHavePreviousItem
+        {
+            get { return (bool)GetValue(IsHavePreviousItemProperty); }
+            set { SetValue(IsHavePreviousItemProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsHaveNextItemProperty =
+            DependencyProperty.Register("IsHaveNextItem", typeof(bool), typeof(ContentsViewer));
+
+        public bool IsHaveNextItem
+        {
+            get { return (bool)GetValue(IsHaveNextItemProperty); }
+            set { SetValue(IsHaveNextItemProperty, value); }
+        }
+
+        #endregion
+
         private static string AbbreviatedDayName(DateTime datetime)
         {
             // 영어로 고정
@@ -126,6 +155,8 @@ namespace DayOne.NET
 
         private void UpdateDateTime(DateTime datetime)
         {
+            currentDateTime = datetime;
+
             Year = datetime.Year.ToString();
             MonthName = AbbreviatedMonthName(datetime);
             Day = datetime.Day.ToString("D2");
@@ -144,6 +175,9 @@ namespace DayOne.NET
 
             htmlRenderer.Source = new Uri(uri);
             htmlRenderer.Reload(true);
+
+            IsHaveNextItem = HasNextItem(dateTime);
+            IsHavePreviousItem = HasPreviousItem(dateTime);
         }     
 
         private string GetHtmlContents(IEnumerable<string> entries)
@@ -171,6 +205,42 @@ namespace DayOne.NET
                 Aggregate((e1, e2) => e1 + @"<hr />" + e2);
 
             return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
+        }
+
+        private bool HasPreviousItem(DateTime current)
+        {
+            if (dateTimeList != null)
+                return dateTimeList.Count(k => k < current) > 0;
+
+            return false;
+        }
+
+        private bool HasNextItem(DateTime current)
+        {
+            if (dateTimeList != null)
+                return dateTimeList.Count(k => k > current) > 0;
+
+            return false;
+        }
+
+        private DateTime currentDateTime;
+
+        private void PreviousButtonClick(object sender, RoutedEventArgs e)
+        {
+            var selectedKey = dateTimeList.Reverse().FirstOrDefault(k => k < currentDateTime);
+            if (selectedKey != DateTime.MinValue) {
+                var items = contentsList[selectedKey];
+                LoadContentsFromUri(selectedKey, items);
+            }
+        }
+
+        private void NextButtonClick(object sender, RoutedEventArgs e)
+        {
+            var selectedKey = dateTimeList.FirstOrDefault(k => k > currentDateTime);
+            if (selectedKey != DateTime.MinValue) {
+                var items = contentsList[selectedKey];
+                LoadContentsFromUri(selectedKey, items);
+            }
         }
     }
 }

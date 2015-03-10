@@ -48,65 +48,25 @@ namespace DayOne.NET
             LoadDateContentsDateTime();
             canlendarViewer.InitializeCalendar(contentsList);
             contentsItemViewer.InitializeItemViewer(contentsList);
+            contentsViewer.InitializeViewer(contentsList);
 
             contentsEditor.EditDone += (o, e) => {
                 LoadDateContentsDateTime(); // Referesh
                 contentsItemViewer.InitializeItemViewer(contentsList);
+                contentsViewer.InitializeViewer(contentsList);
                 ShowListView();
             };
         }
-        
-
-        //private string GetHtmlContents(IEnumerable<string> entries)
-        //{
-        //    var images = Directory.GetFiles(PHOTO_PATH, "*.jpg", SearchOption.TopDirectoryOnly);
-
-        //    var HasImage = new Func<string, bool>(uuid => {                
-        //        return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
-        //    });
-
-        //    var imgTagFormat = @"<img src=""{0}"" width=""100%"">";
-        //    var contetsHtml = entries.Select(
-        //            path => {
-        //                var entry = DayOneContent.ReadContents(path);
-        //                var html = markdownProcessor.Transform(entry.EntryText);
-        //                if (HasImage(entry.UUID)) {
-        //                    //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
-        //                    var imagePath = PHOTO_PATH + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
-        //                    var imageTag = string.Format(imgTagFormat, imagePath);
-        //                    html = imageTag + html;
-        //                }
-
-        //                return html;
-        //            }).
-        //        Aggregate((e1, e2) => e1 + @"<hr />" + e2);
-            
-
-        //    return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
-        //}
 
         private void CanlendarViewerDayItemSelected(object sender, DayItemSelectedArgs e)
         {
             if (e.SelectedUUIDs != null) {
-                //var entries = GetEntryList(e.SelectedUUIDs);
-                //var html = GetHtmlContents(entries);
-                //File.WriteAllText("contents.html", html);
-                //var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
                 contentsViewer.LoadContentsFromUri(e.SelectedDay, e.SelectedUUIDs);
 
                 contentsViewer.Visibility = System.Windows.Visibility.Visible;
                 canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
             }
         }
-
-        //private IEnumerable<string> GetEntryList(IEnumerable<string> uuids)
-        //{
-        //    if (uuids != null) {
-        //        return uuids.Select(id => ENTRY_PATH + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
-        //    }
-
-        //    return null;
-        //}
         
         private void LoadDateContentsDateTime()
         {

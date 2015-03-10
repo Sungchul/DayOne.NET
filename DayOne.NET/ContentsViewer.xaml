@@ -5,8 +5,8 @@
              xmlns:core="clr-namespace:Awesomium.Core;assembly=Awesomium.Core"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignWidth="300"
              x:Name="me"
+             d:DesignWidth="300"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -39,9 +39,7 @@
                     <Setter Property="FontSize" Value="19" />
                 </Style>
             </StackPanel.Resources>
-            <TextBlock VerticalAlignment="Top" Text="{Binding ElementName=me,
-                                      Path=DayName,
-                                      Mode=OneWay}">
+            <TextBlock VerticalAlignment="Top" Text="{Binding ElementName=me, Path=DayName, Mode=OneWay}">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="-90" />
                 </TextBlock.LayoutTransform>
@@ -52,12 +50,8 @@
                                       Path=Day,
                                       Mode=OneWay}" />
             <StackPanel>
-                <TextBlock Text="{Binding ElementName=me,
-                                      Path=MonthName,
-                                      Mode=OneWay}" />
-                <TextBlock Text="{Binding ElementName=me,
-                                      Path=Year,
-                                      Mode=OneWay}" />
+                <TextBlock Text="{Binding ElementName=me, Path=MonthName, Mode=OneWay}" />
+                <TextBlock Text="{Binding ElementName=me, Path=Year, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="2"
@@ -91,15 +85,35 @@
                                       Path=Time,
                                       Mode=OneWay}" />
         </StackPanel>
-        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Width="30" Height="30" Margin="5" Content="Prev" />
-            <Button Width="30" Height="30" Margin="5" Content="Next" />
+        <StackPanel Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Width="30"
+                    Height="30"
+                    Margin="5"
+                    Click="PreviousButtonClick"
+                    Content="Prev"
+                    IsEnabled="{Binding ElementName=me,
+                                        Path=IsHavePreviousItem,
+                                        Mode=OneWay}" />
+            <Button Width="30"
+                    Height="30"
+                    Margin="5"
+                    Click="NextButtonClick"
+                    Content="Next"
+                    IsEnabled="{Binding ElementName=me,
+                                        Path=IsHaveNextItem,
+                                        Mode=OneWay}" />
         </StackPanel>
-        
+
         <Separator Grid.Row="1"
                    Grid.ColumnSpan="5"
                    Margin="5,0"
                    VerticalAlignment="Top" />
-        <awe:WebControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" x:Name="htmlRenderer" Margin="2" />
+        <awe:WebControl x:Name="htmlRenderer"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        Margin="2" />
     </Grid>
 </UserControl>

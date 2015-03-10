@@ -7,8 +7,7 @@
         Width="1244.881"
         Height="750"
         Background="Black">
-    <Grid MaxWidth="1000"
-          ShowGridLines="False">
+    <Grid MaxWidth="1000" ShowGridLines="False">
         <Grid.Resources>
             <Style TargetType="Button">
                 <Setter Property="Width" Value="50" />
@@ -48,24 +47,30 @@
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Separator />
-                <Button Width="30" Height="30" Click="OpenOptionButtonClick" />
+                <Button Width="30"
+                        Height="30"
+                        Click="OpenOptionButtonClick" />
             </StackPanel>
         </Grid>
         <My:CalendarViewer x:Name="canlendarViewer"
                            Grid.Row="1"
-                           Grid.Column="1" Background="White"
+                           Grid.Column="1"
+                           Background="White"
                            Visibility="Collapsed" />
         <My:ContentsViewer x:Name="contentsViewer"
                            Grid.Row="1"
-                           Grid.Column="1" Background="White"
+                           Grid.Column="1"
+                           Background="White"
                            Visibility="Collapsed" />
         <My:ContentsEditor x:Name="contentsEditor"
                            Grid.Row="1"
-                           Grid.Column="1" Background="White"
+                           Grid.Column="1"
+                           Background="White"
                            Visibility="Collapsed" />
         <My:ContentItemViewer x:Name="contentsItemViewer"
-                              Grid.Row="1" Background="White"
-                              Grid.Column="1" />
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              Background="White" />
 
     </Grid>
 </Window>
