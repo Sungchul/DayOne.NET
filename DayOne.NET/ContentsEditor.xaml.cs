@@ -24,6 +24,8 @@ namespace DayOne.NET
 
         public DayOneContent currentEntry;
 
+        private string photoPath;
+
         public ContentsEditor()
         {
             InitializeComponent();
@@ -109,14 +111,16 @@ namespace DayOne.NET
             editor.Text = entry.EntryText;
         }
 
-        public void SaveContents(string path)
+        public void SaveContents()
         {
             if (currentEntry == null)
                 currentEntry = DayOneContent.Create();
 
-            var fullPath = path + System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + ".doentry";
+            var fullPath = ConfigManager.EntryPath + 
+                System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + ".doentry";
+            
             if (System.IO.File.Exists(fullPath)) {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error???");
                 return;
             }
 
@@ -124,21 +128,35 @@ namespace DayOne.NET
             DayOneContent.SaveDayOneContent(fullPath, currentEntry);
         }
 
-        private readonly string PHOTO_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\photos";
+        public void SavePhoto()
+        {
+            if (photoPath != null || System.IO.File.Exists(photoPath)) {
+                var fileExt = System.IO.Path.GetExtension(photoPath);
+                var targetPath = ConfigManager.PhotoPath + 
+                    System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + fileExt;
 
-        private readonly string ENTRY_PATH = @"C:\Users\sungchul\Dropbox\Apps\Day One\Journal.dayone\entries";
+                System.IO.File.Copy(photoPath, targetPath);
+            }
+        }
 
         private void DoneButtonClick(object sender, RoutedEventArgs e)
         {
-            SaveContents(ENTRY_PATH);
+            SaveContents();
+            SavePhoto();
 
             if (EditDone != null)
                 EditDone(this, EventArgs.Empty);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddPhotoButtonClick(object sender, RoutedEventArgs e)
         {
-
+            var dialog = new System.Windows.Forms.OpenFileDialog() {
+                Filter = "Image File|*.jpg"
+            };
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                photoPath = dialog.FileName;
+            }
         }
     }
 }
