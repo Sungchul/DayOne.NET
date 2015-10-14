@@ -242,5 +242,9 @@ namespace DayOne.NET
                 LoadContentsFromUri(selectedKey, items);
             }
         }
+
+        private void EditButtonClick(object sender, RoutedEventArgs e)
+        {   
+        }
     }
 }

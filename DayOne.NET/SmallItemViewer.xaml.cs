@@ -20,15 +20,17 @@ namespace DayOne.NET
     /// </summary>
     public partial class SmallItemViewer : UserControl
     {
+        public event EventHandler<ItemEditRequestEventArgs> ItemEditRequest;
+
         public SmallItemViewer()
-        {         
+        {
             InitializeComponent();
         }
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(SmallItemViewer));
 
-        public string Title 
+        public string Title
         {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
@@ -37,7 +39,7 @@ namespace DayOne.NET
         public static readonly DependencyProperty EntryProperty =
             DependencyProperty.Register("Entry", typeof(string), typeof(SmallItemViewer));
 
-        public string Entry 
+        public string Entry
         {
             get { return (string)GetValue(EntryProperty); }
             set { SetValue(EntryProperty, value); }
@@ -46,7 +48,7 @@ namespace DayOne.NET
         public static readonly DependencyProperty InfotmationProperty =
             DependencyProperty.Register("Infotmation", typeof(string), typeof(SmallItemViewer));
 
-        public string Infotmation 
+        public string Infotmation
         {
             get { return (string)GetValue(InfotmationProperty); }
             set { SetValue(InfotmationProperty, value); }
@@ -83,5 +85,18 @@ namespace DayOne.NET
             get { return (Visibility)GetValue(SplitLineVisibilityProperty); }
             set { SetValue(SplitLineVisibilityProperty, value); }
         }
+
+        public string UUID { get; set; }
+
+        private void TextBlockMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ItemEditRequest != null)
+                ItemEditRequest(this, new ItemEditRequestEventArgs() { UUID = this.UUID });
+        }
+    }
+
+    public class ItemEditRequestEventArgs : EventArgs
+    {
+        public string UUID { get; set; }
     }
 }

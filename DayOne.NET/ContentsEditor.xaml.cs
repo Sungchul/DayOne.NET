@@ -119,10 +119,10 @@ namespace DayOne.NET
             var fullPath = ConfigManager.EntryPath + 
                 System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + ".doentry";
             
-            if (System.IO.File.Exists(fullPath)) {
-                MessageBox.Show("Error???");
-                return;
-            }
+            //if (System.IO.File.Exists(fullPath)) {
+            //    MessageBox.Show("Error???");
+            //    return;
+            //}
 
             currentEntry.EntryText = editor.Text;
             DayOneContent.SaveDayOneContent(fullPath, currentEntry);

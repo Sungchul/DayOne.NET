@@ -7,6 +7,16 @@
              d:DesignWidth="900"
              mc:Ignorable="d">
     <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="TextBlock" x:Key="HoverUnderlineStyle">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                        <Setter Property="TextBlock.Foreground" Value="Blue" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </StackPanel.Resources>
         <DockPanel HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    LastChildFill="true">
@@ -33,7 +43,9 @@
                            Text="{Binding ElementName=me,
                                           Path=Title,
                                           Mode=OneWay}"
+                           Style="{StaticResource HoverUnderlineStyle}"
                            TextTrimming="WordEllipsis"
+                           MouseDown="TextBlockMouseDown"
                            Visibility="{Binding ElementName=me,
                                                 Path=TitleVisibility,
                                                 Mode=OneWay}" />
@@ -58,6 +70,8 @@
                                           Path=Entry,
                                           Mode=OneWay}"
                            TextTrimming="WordEllipsis"
+                           Style="{StaticResource HoverUnderlineStyle}"
+                           MouseDown="TextBlockMouseDown"
                            TextWrapping="Wrap" />
             </DockPanel>
         </DockPanel>

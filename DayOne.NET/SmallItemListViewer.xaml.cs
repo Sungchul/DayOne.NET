@@ -20,6 +20,8 @@ namespace DayOne.NET
     /// </summary>
     public partial class SmallItemListViewer : UserControl
     {
+        public event EventHandler<ItemEditRequestEventArgs> ItemEditRequest;
+
         public SmallItemListViewer()
         {
             InitializeComponent();
@@ -60,12 +62,17 @@ namespace DayOne.NET
 
             return names[(int)datetime.DayOfWeek].ToUpper();
         }
-            
+
+        
 
         public void InitializeItems(IEnumerable<DayOneContent> contents, string photoDir)
         {
             foreach (var content in contents) {
-                var itemViewer = new SmallItemViewer();
+                var itemViewer = new SmallItemViewer() { UUID = content.UUID };
+                itemViewer.ItemEditRequest += (o, e) => {
+                    if (ItemEditRequest != null)
+                        ItemEditRequest(this, e);
+                };
 
                 if (!string.IsNullOrEmpty(content.EntryText)) {
                     var splitedEntry = content.EntryText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);

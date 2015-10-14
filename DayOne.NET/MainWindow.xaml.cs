@@ -48,6 +48,7 @@ namespace DayOne.NET
             LoadDateContentsDateTime();
             canlendarViewer.InitializeCalendar(contentsList);
             contentsItemViewer.InitializeItemViewer(contentsList);
+            contentsItemViewer.ItemEditRequest += (o, e) => ShowEditWindowWithContents(e.UUID);
             contentsViewer.InitializeViewer(contentsList);
 
             contentsEditor.EditDone += (o, e) => {
@@ -88,6 +89,18 @@ namespace DayOne.NET
                     contentsList[createdKey].Add(uuid);
                 }
             }
+        }
+
+        private void ShowEditWindowWithContents(string uuid)
+        {
+            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
+            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed;
+            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
+
+            contentsEditor.Visibility = System.Windows.Visibility.Visible;
+            
+            var path = ConfigManager.EntryPath + System.IO.Path.DirectorySeparatorChar + uuid + ".doentry";
+            contentsEditor.LoadContents(DayOneContent.ReadContents(path));
         }
 
         private void NewButtonClick(object sender, RoutedEventArgs e)

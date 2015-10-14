@@ -36,9 +36,7 @@
                     <Setter Property="FontSize" Value="19" />
                 </Style>
             </StackPanel.Resources>
-            <TextBlock VerticalAlignment="Top" Text="{Binding ElementName=me,
-                                      Path=DayName,
-                                      Mode=OneWay}">
+            <TextBlock VerticalAlignment="Top" Text="{Binding ElementName=me, Path=DayName, Mode=OneWay}">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="-90" />
                 </TextBlock.LayoutTransform>
@@ -49,12 +47,8 @@
                                       Path=Day,
                                       Mode=OneWay}" />
             <StackPanel>
-                <TextBlock Text="{Binding ElementName=me,
-                                      Path=MonthName,
-                                      Mode=OneWay}" />
-                <TextBlock Text="{Binding ElementName=me,
-                                      Path=Year,
-                                      Mode=OneWay}" />
+                <TextBlock Text="{Binding ElementName=me, Path=MonthName, Mode=OneWay}" />
+                <TextBlock Text="{Binding ElementName=me, Path=Year, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="2"
@@ -93,7 +87,7 @@
             <Separator />
             <Button Content="Tag" />
             <Separator />
-            <Button Content="Photo" Click="AddPhotoButtonClick" />
+            <Button Click="AddPhotoButtonClick" Content="Photo" />
             <Separator />
             <Button Content="Delete" />
             <Separator />
@@ -102,7 +96,8 @@
         <Button Grid.Column="3"
                 Width="100"
                 Margin="10"
-                Content="Done" Click="DoneButtonClick" />
+                Click="DoneButtonClick"
+                Content="Done" />
         <Separator Grid.Row="1"
                    Grid.ColumnSpan="5"
                    Margin="5,0"

@@ -26,7 +26,9 @@ namespace DayOne.NET
 
         private Dictionary<DateTime, List<string>> contentsList;
         private DateTime[] dateTimes;
-        
+
+        public event EventHandler<ItemEditRequestEventArgs> ItemEditRequest;
+
         private double verticalOffsetBackwardItemAddTriger = 100;
         
         private int index = 0;
@@ -57,6 +59,10 @@ namespace DayOne.NET
                 var pathes = uuids.Select(id => ENTRY_PATH + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
                 var entries = pathes.Select(path => DayOneContent.ReadContents(path));
                 var viewer = new SmallItemListViewer();
+                viewer.ItemEditRequest += (o, e) => {
+                    if (ItemEditRequest != null)
+                        ItemEditRequest(this, e);
+                };
                 viewer.InitializeItems(entries, PHOTO_PATH);
 
                 container.Children.Add(viewer);
