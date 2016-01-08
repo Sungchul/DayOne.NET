@@ -30,9 +30,7 @@ namespace DayOne.NET
         {
             InitializeComponent();
 
-            // DropBox 파일 경로가 있는지...
-            ConfigManager.LoadConfig();
-            if (!Directory.Exists(ConfigManager.EntryPath) || !Directory.Exists(ConfigManager.PhotoPath)) {
+            if (!Directory.Exists(Properties.Settings.Default.EntryPath) || !Directory.Exists(Properties.Settings.Default.PhotoPath)) {
                 MessageBox.Show("올바른 DropBox 경로를 찾을 수 없습니다.");
                 
                 var option = new OptionWindow();
@@ -41,6 +39,9 @@ namespace DayOne.NET
                     this.Close();
                 }
             }
+
+            if (Properties.Settings.Default.UsePassword)
+                _passwordTab.IsSelected = true;
 
             canlendarViewer.DayItemSelected += CanlendarViewerDayItemSelected;
 
@@ -55,7 +56,7 @@ namespace DayOne.NET
                 LoadDateContentsDateTime(); // Referesh
                 contentsItemViewer.InitializeItemViewer(contentsList);
                 contentsViewer.InitializeViewer(contentsList);
-                ShowListView();
+                ShowListPage();
             };
         }
 
@@ -71,11 +72,11 @@ namespace DayOne.NET
         
         private void LoadDateContentsDateTime()
         {
-            if (!Directory.Exists(ConfigManager.EntryPath))
+            if (!Directory.Exists(Properties.Settings.Default.EntryPath))
                 throw new DirectoryNotFoundException();
 
             contentsList.Clear();
-            var pathList = Directory.GetFiles(ConfigManager.EntryPath, "*.doentry");
+            var pathList = Directory.GetFiles(Properties.Settings.Default.EntryPath, "*.doentry");
             foreach (var path in pathList) {
                 Dictionary<string, object> entry = Plist.readPlist(path) as Dictionary<string, object>;
                 var created = (DateTime)entry["Creation Date"];
@@ -93,67 +94,76 @@ namespace DayOne.NET
 
         private void ShowEditWindowWithContents(string uuid)
         {
-            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
-            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
-
-            contentsEditor.Visibility = System.Windows.Visibility.Visible;
-            
-            var path = ConfigManager.EntryPath + System.IO.Path.DirectorySeparatorChar + uuid + ".doentry";
+            _editorViewTab.IsSelected = true;
+            var path = Properties.Settings.Default.EntryPath + System.IO.Path.DirectorySeparatorChar + uuid + ".doentry";
             contentsEditor.LoadContents(DayOneContent.ReadContents(path));
-        }
-
-        private void NewButtonClick(object sender, RoutedEventArgs e)
-        {
-            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
-            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
-            
-            contentsEditor.Visibility = System.Windows.Visibility.Visible;
-            contentsEditor.InitilaizeContents();
-        }
-
-        private void ListButtonClick(object sender, RoutedEventArgs e)
-        {
-            ShowListView();
-        }
-
-        private void ShowListView()
-        {
-            contentsItemViewer.Visibility = System.Windows.Visibility.Visible;
-
-            contentsEditor.Visibility = System.Windows.Visibility.Collapsed;
-            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
-            canlendarViewer.Visibility = System.Windows.Visibility.Collapsed; 
-        }
-
-        private void CalendarButtonClick(object sender, RoutedEventArgs e)
-        {
-            contentsEditor.Visibility = System.Windows.Visibility.Collapsed;
-            contentsViewer.Visibility = System.Windows.Visibility.Collapsed;
-            contentsItemViewer.Visibility = System.Windows.Visibility.Collapsed;
-
-            canlendarViewer.Visibility = System.Windows.Visibility.Visible;
-            canlendarViewer.GoToTodayCalendar();
-            
-            // trick
-            canlendarViewer.GoToTodayCalendar();
-        }
-
-        private void MapButtonClick(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("준비중");
-        }
-
-        private void AlarmButtonClick(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("준비중");
         }
 
         private void OpenOptionButtonClick(object sender, RoutedEventArgs e)
         {
             var option = new OptionWindow();
             option.ShowDialog();
+        }
+
+        private void ShowNewPage()
+        {
+            _editorViewTab.IsSelected = true;
+            contentsEditor.InitilaizeContents();
+        }
+
+        private void ShowListPage()
+        {
+            _contentsItemViewerTab.IsSelected = true;
+        }
+
+        private void ShowCalendarPage()
+        {
+            _canlendarViewerTab.IsSelected = true;
+            canlendarViewer.GoToTodayCalendar();
+
+            // trick
+            canlendarViewer.GoToTodayCalendar();
+        }
+
+        private void ShowAlarmPage()
+        {
+            MessageBox.Show("준비중");
+        }
+
+        private void MainMenuButtonClick(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as Button).Tag as string;
+
+            switch (tag) {
+                case "New":
+                    ShowNewPage();
+                    break;
+
+                case "List":
+                    ShowListPage();
+                    break;
+
+                case "Calendar":
+                    ShowCalendarPage();
+                    break;
+
+                case "Alarm":
+                    ShowAlarmPage();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void CheckPasswordButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (_password.Password != Properties.Settings.Default.Password) {
+                MessageBox.Show("Invalid Password");
+                return;
+            }
+
+            ShowListPage();
         }
     }
 }

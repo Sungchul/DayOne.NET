@@ -8,7 +8,7 @@
              mc:Ignorable="d">
     <StackPanel>
         <StackPanel.Resources>
-            <Style TargetType="TextBlock" x:Key="HoverUnderlineStyle">
+            <Style x:Key="HoverUnderlineStyle" TargetType="TextBlock">
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="TextBlock.TextDecorations" Value="Underline" />
@@ -40,12 +40,12 @@
                            DockPanel.Dock="Top"
                            FontSize="19"
                            FontWeight="Bold"
+                           MouseDown="TextBlockMouseDown"
+                           Style="{StaticResource HoverUnderlineStyle}"
                            Text="{Binding ElementName=me,
                                           Path=Title,
                                           Mode=OneWay}"
-                           Style="{StaticResource HoverUnderlineStyle}"
                            TextTrimming="WordEllipsis"
-                           MouseDown="TextBlockMouseDown"
                            Visibility="{Binding ElementName=me,
                                                 Path=TitleVisibility,
                                                 Mode=OneWay}" />
@@ -66,12 +66,12 @@
                            VerticalAlignment="Stretch"
                            FontSize="16"
                            LineHeight="21"
+                           MouseDown="TextBlockMouseDown"
+                           Style="{StaticResource HoverUnderlineStyle}"
                            Text="{Binding ElementName=me,
                                           Path=Entry,
                                           Mode=OneWay}"
                            TextTrimming="WordEllipsis"
-                           Style="{StaticResource HoverUnderlineStyle}"
-                           MouseDown="TextBlockMouseDown"
                            TextWrapping="Wrap" />
             </DockPanel>
         </DockPanel>

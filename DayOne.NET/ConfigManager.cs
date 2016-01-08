@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace DayOne.NET
 {
-    public class ConfigManager
+    public class ConfigManager1
     {
         public static string DEFALUT_CONFIG_FILE = "dayone_config.xml";
 

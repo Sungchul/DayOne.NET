@@ -116,7 +116,7 @@ namespace DayOne.NET
             if (currentEntry == null)
                 currentEntry = DayOneContent.Create();
 
-            var fullPath = ConfigManager.EntryPath + 
+            var fullPath = Properties.Settings.Default.EntryPath + 
                 System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + ".doentry";
             
             //if (System.IO.File.Exists(fullPath)) {
@@ -132,7 +132,7 @@ namespace DayOne.NET
         {
             if (photoPath != null || System.IO.File.Exists(photoPath)) {
                 var fileExt = System.IO.Path.GetExtension(photoPath);
-                var targetPath = ConfigManager.PhotoPath + 
+                var targetPath = Properties.Settings.Default.PhotoPath + 
                     System.IO.Path.DirectorySeparatorChar + currentEntry.UUID + fileExt;
 
                 System.IO.File.Copy(photoPath, targetPath);

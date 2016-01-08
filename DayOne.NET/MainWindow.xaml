@@ -35,15 +35,21 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <StackPanel VerticalAlignment="Center">
-                <Button Click="NewButtonClick" Content="New" />
+                <Button Click="MainMenuButtonClick"
+                        Content="New"
+                        Tag="New" />
                 <Separator />
-                <Button Click="ListButtonClick" Content="List" />
+                <Button Click="MainMenuButtonClick"
+                        Content="List"
+                        Tag="List" />
                 <Separator />
-                <Button Click="CalendarButtonClick" Content="Calendar" />
+                <Button Click="MainMenuButtonClick"
+                        Content="Calendar"
+                        Tag="Calendar" />
                 <Separator />
-                <Button Click="MapButtonClick" Content="Map" />
-                <Separator />
-                <Button Click="AlarmButtonClick" Content="Alarm" />
+                <Button Click="MainMenuButtonClick"
+                        Content="Alarm"
+                        Tag="Alarm" />
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Separator />
@@ -52,25 +58,39 @@
                         Click="OpenOptionButtonClick" />
             </StackPanel>
         </Grid>
-        <My:CalendarViewer x:Name="canlendarViewer"
-                           Grid.Row="1"
-                           Grid.Column="1"
-                           Background="White"
-                           Visibility="Collapsed" />
-        <My:ContentsViewer x:Name="contentsViewer"
-                           Grid.Row="1"
-                           Grid.Column="1"
-                           Background="White"
-                           Visibility="Collapsed" />
-        <My:ContentsEditor x:Name="contentsEditor"
-                           Grid.Row="1"
-                           Grid.Column="1"
-                           Background="White"
-                           Visibility="Collapsed" />
-        <My:ContentItemViewer x:Name="contentsItemViewer"
-                              Grid.Row="1"
-                              Grid.Column="1"
-                              Background="White" />
-
+        <TabControl Name="_pageContainer"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Name="_contentsItemViewerTab">
+                <My:ContentItemViewer x:Name="contentsItemViewer" Background="White" />
+            </TabItem>
+            <TabItem Name="_canlendarViewerTab">
+                <My:CalendarViewer x:Name="canlendarViewer" Background="White" />
+            </TabItem>
+            <TabItem Name="_contentsViewerTab">
+                <My:ContentsViewer x:Name="contentsViewer" Background="White" />
+            </TabItem>
+            <TabItem Name="_editorViewTab">
+                <My:ContentsEditor x:Name="contentsEditor" Background="White" />
+            </TabItem>
+            <TabItem Name="_passwordTab">
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <PasswordBox Name="_password" Height="40" Width="300" FontSize="24" Margin="5" />
+                        <Button Content="Enter" IsDefault="True" Click="CheckPasswordButtonClick" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

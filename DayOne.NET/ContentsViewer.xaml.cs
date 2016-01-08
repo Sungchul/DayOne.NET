@@ -168,7 +168,7 @@ namespace DayOne.NET
         {
             UpdateDateTime(dateTime);
 
-            var entries = selectedUUIDs.Select(id => ConfigManager.EntryPath + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
+            var entries = selectedUUIDs.Select(id => Properties.Settings.Default.EntryPath + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
             var html = GetHtmlContents(entries);
             File.WriteAllText("contents.html", html);
             var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
@@ -182,7 +182,7 @@ namespace DayOne.NET
 
         private string GetHtmlContents(IEnumerable<string> entries)
         {
-            var images = Directory.GetFiles(ConfigManager.PhotoPath, "*.jpg", SearchOption.TopDirectoryOnly);
+            var images = Directory.GetFiles(Properties.Settings.Default.PhotoPath, "*.jpg", SearchOption.TopDirectoryOnly);
 
             var HasImage = new Func<string, bool>(uuid => {
                 return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
@@ -195,7 +195,7 @@ namespace DayOne.NET
                         var html = markdownProcessor.Transform(entry.EntryText);
                         if (HasImage(entry.UUID)) {
                             //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
-                            var imagePath = ConfigManager.PhotoPath + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
+                            var imagePath = Properties.Settings.Default.PhotoPath + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
                             var imageTag = string.Format(imgTagFormat, imagePath);
                             html = imageTag + html;
                         }
