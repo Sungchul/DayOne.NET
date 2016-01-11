@@ -64,9 +64,7 @@ namespace DayOne.NET
         {
             if (e.SelectedUUIDs != null) {
                 contentsViewer.LoadContentsFromUri(e.SelectedDay, e.SelectedUUIDs);
-
-                contentsViewer.Visibility = System.Windows.Visibility.Visible;
-                canlendarViewer.Visibility = System.Windows.Visibility.Hidden;
+                _contentsViewerTab.IsSelected = true;
             }
         }
         

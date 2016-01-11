@@ -1,4 +1,4 @@
-﻿using Awesomium.Core;
+﻿using CommonMark;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,29 +28,13 @@ namespace DayOne.NET
         private Dictionary<DateTime, List<string>> contentsList;
         private IEnumerable<DateTime> dateTimeList;
 
-        private MarkdownDeep.Markdown markdownProcessor;
-
-        private string ENTRY_TEMPLATE;
-
         public ContentsViewer()
         {
             InitializeComponent();
         }
 
         public void InitializeViewer(Dictionary<DateTime, List<string>> contentsList)
-        {
-            markdownProcessor = new MarkdownDeep.Markdown {
-                SafeMode = false,
-                ExtraMode = true,
-                AutoHeadingIDs = true,
-                MarkdownInHtml = true,
-                NewWindowForExternalLinks = true
-            };
-
-            var assembly = Assembly.GetExecutingAssembly();
-            ENTRY_TEMPLATE =
-                new StreamReader(assembly.GetManifestResourceStream("DayOne.NET.ContetnsViewer.html")).ReadToEnd();
-
+        {   
             this.contentsList = contentsList;
             this.dateTimeList = contentsList.Keys.OrderBy(x => x);
         }
@@ -140,18 +124,6 @@ namespace DayOne.NET
             return names[(int)datetime.Month].ToUpper();
         }
 
-        public void InitilaizeSession(string contentsPath)
-        {
-            var prefs = new WebPreferences();
-            var session = WebCore.CreateWebSession(prefs);
-            session.AddDataSource("content", new Awesomium.Core.Data.DirectoryDataSource(contentsPath));
-            htmlRenderer.WebSession = session;
-        }
-
-        public void LoadContents(string html)
-        { 
-            htmlRenderer.LoadHTML(html);
-        }
 
         private void UpdateDateTime(DateTime datetime)
         {
@@ -167,45 +139,50 @@ namespace DayOne.NET
         public void LoadContentsFromUri(DateTime dateTime, IEnumerable<string> selectedUUIDs)
         {
             UpdateDateTime(dateTime);
-
-            var entries = selectedUUIDs.Select(id => Properties.Settings.Default.EntryPath + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
-            var html = GetHtmlContents(entries);
-            File.WriteAllText("contents.html", html);
-            var uri = @"file:///" + Environment.CurrentDirectory + System.IO.Path.DirectorySeparatorChar + "contents.html";
-
-            htmlRenderer.Source = new Uri(uri);
-            htmlRenderer.Reload(true);
-
-            IsHaveNextItem = HasNextItem(dateTime);
-            IsHavePreviousItem = HasPreviousItem(dateTime);
-        }     
-
-        private string GetHtmlContents(IEnumerable<string> entries)
-        {
+            
             var images = Directory.GetFiles(Properties.Settings.Default.PhotoPath, "*.jpg", SearchOption.TopDirectoryOnly);
 
             var HasImage = new Func<string, bool>(uuid => {
                 return images.FirstOrDefault(image => System.IO.Path.GetFileNameWithoutExtension(image) == uuid) != null;
             });
 
-            var imgTagFormat = @"<img src=""{0}"" width=""100%"">";
-            var contetsHtml = entries.Select(
-                    path => {
-                        var entry = DayOneContent.ReadContents(path);
-                        var html = markdownProcessor.Transform(entry.EntryText);
-                        if (HasImage(entry.UUID)) {
-                            //var imagePath = @"asset://content/" + entry.UUID + ".jpg";
-                            var imagePath = Properties.Settings.Default.PhotoPath + System.IO.Path.DirectorySeparatorChar + entry.UUID + ".jpg";
-                            var imageTag = string.Format(imgTagFormat, imagePath);
-                            html = imageTag + html;
-                        }
+            var entries = selectedUUIDs.Select(id => Properties.Settings.Default.EntryPath + System.IO.Path.DirectorySeparatorChar + id + ".doentry");
+            
+            var flowDocument = new FlowDocument();
+            foreach (var uuid in selectedUUIDs) {
+                if (flowDocument.Blocks.Count > 0) {
+                    var separator = new Rectangle();
+                    separator.Stroke = new SolidColorBrush(Colors.LightGray);
+                    separator.StrokeThickness = 3;
+                    separator.Height = 2;
+                    separator.Width = double.NaN;
 
-                        return html;
-                    }).
-                Aggregate((e1, e2) => e1 + @"<hr />" + e2);
+                    var lineBlock = new BlockUIContainer(separator);
+                    flowDocument.Blocks.Add(lineBlock);
+                }
 
-            return ENTRY_TEMPLATE.Replace("##HTML##", contetsHtml);
-        }
+                var image = images.FirstOrDefault(x => System.IO.Path.GetFileNameWithoutExtension(x) == uuid);
+                if (image != null) {
+                    var picture = new Image();
+                    picture.Source = new BitmapImage(new Uri(image, UriKind.Absolute));
+                    var uiContainer = new BlockUIContainer(picture);
+
+                    flowDocument.Blocks.Add(uiContainer);
+                }
+
+                var entry = Properties.Settings.Default.EntryPath + System.IO.Path.DirectorySeparatorChar + uuid + ".doentry";
+                var content = DayOneContent.ReadContents(entry);
+                var ast = CommonMarkConverter.Parse(content.EntryText);
+                FlowDocumentFormatter.BlocksToFlowDocument(ast, flowDocument);
+            }
+
+            _viewer.Document = flowDocument;
+            
+            IsHaveNextItem = HasNextItem(dateTime);
+            IsHavePreviousItem = HasPreviousItem(dateTime);
+        }     
+
+        
 
         private bool HasPreviousItem(DateTime current)
         {
